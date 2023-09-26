@@ -37,7 +37,9 @@ Alaluvut jokaisen tehtävän raportille löydät alta.
 
 
 ## 01-TASK
-
+Tehtävän tekemisessä opin päällimmäisenä, että while- lauseen (ja oletettavasti kaikki samankaltainen) ehdon järjestyksellä on väliä, kun ne erotellaan '&&' merkillä.
+"while (j >= 0 && current.compareTo(array[j]) < 0)" otti sorttaamiseen mukaan arrayn ensimmäisen elementin, samalla kun "while (current.compareTo(array[j] && j >= 0) < 0)" koodilla arrayn ensimmäinen elementti pysyi aina paikallaan.
+Sanoisin että reverse() metodien luominen oli jokseenkin helppoa, mutta itse insertionSort() metodien äärellä jouduin ajattelemaan, käyttämään enemmän aikaa ymmärtämiseen.
 ## 02-TASK
 
 ## 03-TASK
