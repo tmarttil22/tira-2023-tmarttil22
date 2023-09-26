@@ -176,7 +176,7 @@ Jos testi epäonnistuu, analysoi mikä meni pieleen ja miksi, lukien tarkkaan te
 
 ## Askel 2 - TIRA Codersin koodareiden lajittelu
 
-Tarvitset tässä ja kaikissa muissakin kurssin tehtävissä **testiaineiston** jolla testata tietorakenteiden ja algoritmien toimintaa. Koska testiaineisto on todella laaja, se ei ole mukana tässä repositoryssä koska tiedostokoko on liian suuri GitHubiin ladattavaksi.
+Tarvittset tässä ja kaikissa muissakin kurssin tehävissä **testiaineiston** jolla testata tietorakenteiden ja algoritmien toimintaa. Koska testiaineisto on todella laaja, se ei ole mukana tässä repositoryssä koska tiedostokoko on liian suuri GitHubiin ladattavaksi.
 
 **Hae testiaineisto** [TIRACoders.zip](https://drive.google.com/file/d/1-GU4HVON_txNmrq_7HCRe4tHweod5PSO/view?usp=share_link) tästä linkistä koneellesi. **Pura** haettu .zip -tiedosto tähän **samaan** hakemistoon missä repository on (hakemisto jossa nämä ohjetiedostot ja projektin `pom.xml` -tiedosto ovat). Sinun pitäisi nähdä nämä testiaineistotiedostot (`.json` -päätteiset tiedostot) myös VS Codessa, kuten tässä kuvassa näkyy:
 

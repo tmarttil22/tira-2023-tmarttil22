@@ -187,12 +187,14 @@ public class Coder implements Comparable<Coder> {
 	 * in containers having the same name (as happens in real world), but still
 	 * can identify them as different Coders using the Coder.id.
 	 * 
-	 * TODO: Implement compareTo so that the order of coders ordered by using this methos
+	 * TODO: Implement compareTo so that the order of coders ordered by using this method
 	 * will be natural order. Meaning, alphabetical order A...Ö (by lastname-firstname order).
 	 */
 	@Override
 	public int compareTo(Coder another) {
-		return 0;
+		// source: https://www.youtube.com/watch?v=wpobIEG-ja4&ab_channel=AnttiJuustila 8:30
+		// Using string compareTo
+		return getFullName().compareTo(another.getFullName());
 	}
 
 	/**
