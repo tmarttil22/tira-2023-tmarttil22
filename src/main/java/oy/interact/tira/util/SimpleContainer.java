@@ -17,7 +17,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 	private int count = 0;
 	private int reallocationCount = 0;
 
-	private boolean sorted = false;
+	private boolean sorted = true;
 
 	public SimpleContainer(Class<E> clazz) {
 		this(clazz, DEFAULT_ARRAY_SIZE);
@@ -183,7 +183,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void reverse() {
-		// TODO: Student: finish this as part of task 02.
+		Algorithms.reverse(array, count, capacity());
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
@@ -195,7 +195,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort(Comparator<E> usingComparator) {
-		// TODO: Student: finish this as part of task 02.
+		Algorithms.insertionSort(array, count, capacity(), usingComparator);
 	}
 
 }

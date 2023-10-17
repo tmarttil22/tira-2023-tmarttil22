@@ -1,6 +1,8 @@
 package oy.interact.tira.model;
-
 import java.util.Comparator;
+
+import oy.interact.tira.student.CoderFullNameComparator;
+import oy.interact.tira.student.CoderNameComparator;
 
 public enum CoderSortOrder {
 	FULLNAME_ASCENDING ("Full name (ascending)"),
@@ -57,13 +59,18 @@ public enum CoderSortOrder {
 	public Comparator<Coder> getComparator() {
 		switch (this) {
 			case FULLNAME_ASCENDING:
-			    return 
+				CoderFullNameComparator fullNameAsc = new CoderFullNameComparator();
+			    return fullNameAsc;
 			case FULLNAME_DESCENDING:
-				return
+				CoderFullNameComparator fullNameDesc = new CoderFullNameComparator();
+				return fullNameDesc.reversed();
 			case CODER_NAME_ASCENDING:
-				return
+				CoderNameComparator coderNameAsc = new CoderNameComparator();
+				return coderNameAsc;
 			case CODER_NAME_DESCENDING:
-				return
+				CoderNameComparator coderNameDesc = new CoderNameComparator();
+				return coderNameDesc.reversed();
 		}
+		return null;
 	}
 }
