@@ -1,13 +1,15 @@
 package oy.interact.tira.student;
-
+import oy.interact.tira.model.Coder;
 import java.util.Comparator;
 
-public class CoderNameComparator implements Comparator<CoderNameComparator>{
+public class CoderNameComparator implements Comparator<Coder>{
 
     @Override
-    public int compare(CoderNameComparator o1, CoderNameComparator o2) {
-      int x = 1;
-      return x;
+    public int compare(Coder o1, Coder o2) {
+      String coderName1 = o1.getCoderName();
+      String coderName2 = o2.getCoderName();
+
+      return coderName1.compareTo(coderName2);
     }
 
 }

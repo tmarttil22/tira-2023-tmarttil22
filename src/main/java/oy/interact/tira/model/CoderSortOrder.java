@@ -55,6 +55,15 @@ public enum CoderSortOrder {
 	// and coder names as required, below, following the instructions in the task!
 
 	public Comparator<Coder> getComparator() {
-		return null;
+		switch (this) {
+			case FULLNAME_ASCENDING:
+			    return 
+			case FULLNAME_DESCENDING:
+				return
+			case CODER_NAME_ASCENDING:
+				return
+			case CODER_NAME_DESCENDING:
+				return
+		}
 	}
 }
