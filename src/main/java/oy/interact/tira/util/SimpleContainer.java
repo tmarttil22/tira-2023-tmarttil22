@@ -60,13 +60,21 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public E get(E element) throws IllegalArgumentException {
-		// TODO: Student: finish this as part of task 02.
+		for (int i = 0; i < count - 1; i++) {
+			if (array[i].equals(element)) {
+				return array[i];
+			}
+		}
 		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
 	}
 
 	@Override
 	public int indexOf(E element, Comparator<E> usingComparator) {
-		// TODO: Student: finish this as part of task 02.
+		for (int i = 0; i < count - 1; i++) {
+			if (element.compareTo(array[i]) == 0) {
+				return i;
+			}
+		}
 		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
 	}
 
@@ -113,14 +121,24 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public int findIndex(Predicate<E> searcher) {
-		// TODO: Student: finish this as part of task 02.
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		E[] arr = toArray();
+		for (int i = 0; i < arr.length; i++) {
+			if (searcher.test(arr[i])) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override
 	public E find(Predicate<E> searcher) {
-		// TODO: Student: finish this as part of task 02.
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		E[] arr = toArray();
+		for (int i = 0; i < arr.length; i++) {
+			if (searcher.test(arr[i])) {
+				return arr[i];
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -183,19 +201,19 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void reverse() {
-		Algorithms.reverse(array, count, capacity());
+		Algorithms.reverse(toArray(), count, toArray().length);
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort() {
-		Algorithms.insertionSort(array, 0, count);
+		Algorithms.insertionSort(toArray(), 0, count);
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort(Comparator<E> usingComparator) {
-		Algorithms.insertionSort(array, count, capacity(), usingComparator);
+		Algorithms.insertionSort(toArray(), count, toArray().length, usingComparator);
 	}
 
 }
