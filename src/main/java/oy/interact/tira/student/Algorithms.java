@@ -101,6 +101,21 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex) {
+      toIndex--; //HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis fromIndex..<toIndex, ei fromIndex...toIndex.
+      int middle;
+      
+      while (fromIndex <= toIndex) {
+         middle = fromIndex + (toIndex - fromIndex) / 2;
+         if (aValue.compareTo(fromArray[middle]) < 0) {
+            toIndex = middle - 1;
+         }
+         else if (aValue.compareTo(fromArray[middle]) > 0) {
+            fromIndex = middle + 1;
+         }
+         else {
+            return middle;
+         }
+      }
       return -1;
    }
 
@@ -109,8 +124,25 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
+      toIndex--; //HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis fromIndex..<toIndex, ei fromIndex...toIndex.
+      int middle;
+
+      while (fromIndex <= toIndex) {
+         middle = fromIndex + (toIndex - fromIndex) / 2;
+         if (comparator.compare(aValue, fromArray[middle]) < 0) {
+            toIndex = middle - 1;
+         }
+         else if (comparator.compare(aValue, fromArray[middle]) > 0) {
+            fromIndex = middle + 1;
+         }
+         else {
+            return middle;
+         }
+      }
       return -1;
    }
+
+
 
    public static <E extends Comparable<E>> void fastSort(E [] array) {
       // TODO: Student, implement this.

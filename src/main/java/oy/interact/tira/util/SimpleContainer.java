@@ -70,12 +70,17 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public int indexOf(E element, Comparator<E> usingComparator) {
-		for (int i = 0; i < count - 1; i++) {
-			if (element.compareTo(array[i]) == 0) {
-				return i;
+		if (isSorted()) {
+			return Algorithms.binarySearch(element, array, 0, array.length, usingComparator);
+		}
+		else {
+			for (int i = 0; i < count; i++) {
+				if (element.compareTo(array[i]) == 0) {
+					return i;
+				}
 			}
 		}
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		return -1;
 	}
 
 	// Note: This method is NOT USED by tests and TIRA Coders GUI.
@@ -201,19 +206,19 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void reverse() {
-		Algorithms.reverse(toArray(), count, toArray().length);
+		Algorithms.reverse(array, count, array.length);
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort() {
-		Algorithms.insertionSort(toArray(), 0, count);
+		Algorithms.insertionSort(array, 0, count);
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort(Comparator<E> usingComparator) {
-		Algorithms.insertionSort(toArray(), count, toArray().length, usingComparator);
+		Algorithms.insertionSort(array, count, toArray().length, usingComparator);
 	}
 
 }
