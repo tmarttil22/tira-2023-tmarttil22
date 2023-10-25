@@ -1,6 +1,9 @@
 package oy.interact.tira.factories;
 
+import java.util.Stack;
+
 import oy.interact.tira.NotYetImplementedException;
+import oy.interact.tira.student.StackImplementation;
 import oy.interact.tira.util.StackInterface;
 
 public class StackFactory {
@@ -9,19 +12,22 @@ public class StackFactory {
 	}
 
 	public static StackInterface<Integer> createIntegerStack() {
-		throw new NotYetImplementedException("Task 04-TASK about Stack not yet implemented");
+		StackImplementation<Integer> stackImp = new StackImplementation<>();
+		return stackImp;
 	}
 
 	public static StackInterface<Integer> createIntegerStack(int capacity) {
-		throw new NotYetImplementedException("Task 04-TASK about Stack not yet implemented");
+		StackImplementation<Integer> stackImp = new StackImplementation<>(capacity);
+		return stackImp;
 	}
 
 	public static StackInterface<Character> createCharacterStack() {
-		throw new NotYetImplementedException("Task 04-TASK about Stack not yet implemented");
+		StackImplementation<Character> stackImp = new StackImplementation<>();
+		return stackImp;
 	}
 
 	public static StackInterface<Character> createCharacterStack(int capacity) {
-		throw new NotYetImplementedException("Task 04-TASK about Stack not yet implemented");
+		StackImplementation<Character> stackImp = new StackImplementation<>(capacity);
+		return stackImp;
 	}
-
 }
