@@ -7,20 +7,20 @@ public class StackImplementation<E> implements StackInterface<E>{
     private static final int DEFAULT_STACK_SIZE = 10;
     private Object [] itemArray;
     private int capacity;
-    private int nullElementAmount;
+    private int elementAmount = 0;
 
 
 
     public StackImplementation() {
         itemArray = new Object[DEFAULT_STACK_SIZE];
         capacity = DEFAULT_STACK_SIZE;
-        nullElementAmount = DEFAULT_STACK_SIZE;
+        elementAmount = 0;
     }
 
     public StackImplementation(int cap) {
         itemArray = new Object[cap];
-        capacity = cap;
-        nullElementAmount = cap;
+        capacity = cap ;
+        elementAmount = 0;
     }
 
 
@@ -40,8 +40,9 @@ public class StackImplementation<E> implements StackInterface<E>{
             if (currentIndex == capacity()) {
                 allocateSpace();
             }
-            itemArray[currentIndex] = element;
-            nullElementAmount--;
+        itemArray[currentIndex] = element;
+        elementAmount++;
+
         } catch (OutOfMemoryError O){
             throw new OutOfMemoryError("Couldn't add capacity");
         }
@@ -49,12 +50,14 @@ public class StackImplementation<E> implements StackInterface<E>{
 
     private void allocateSpace() {
         int newCapacity = capacity * 2;
-        nullElementAmount = newCapacity - size();
         try {
             Object [] itemArrayNew = new Object[newCapacity];
-            System.arraycopy(itemArray, 0, itemArrayNew, 0, size());
-            itemArray = itemArrayNew;
+            int currentSize = size();
+
+            System.arraycopy(itemArray, 0, itemArrayNew, 0, currentSize);
+            
             capacity = newCapacity;
+            itemArray = itemArrayNew;
         } catch (OutOfMemoryError O) {
             throw new OutOfMemoryError("Couldn't add any more capacity");
         }
@@ -66,10 +69,15 @@ public class StackImplementation<E> implements StackInterface<E>{
         if (isEmpty()) {
             throw new IllegalStateException("The array is empty");
         }
-        int currentIndex = size();
-        E latest = (E)itemArray[size() - 1];
+        if (elementAmount == 0) {
+            throw new IllegalStateException("all elements in the array are null, nothing to pop");
+        }
+        int currentIndex = size() - 1;
+        E latest = (E)itemArray[currentIndex];
         itemArray[currentIndex] = null;
+        elementAmount--;
         return latest;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -83,7 +91,7 @@ public class StackImplementation<E> implements StackInterface<E>{
 
     @Override
     public int size() {
-        return itemArray.length - nullElementAmount;
+        return elementAmount;
     }
 
     @Override
@@ -95,7 +103,7 @@ public class StackImplementation<E> implements StackInterface<E>{
     public void clear() {
         Object[] clearedItemArray = new Object[DEFAULT_STACK_SIZE];
         itemArray = clearedItemArray;
-        nullElementAmount = DEFAULT_STACK_SIZE;
+        elementAmount = 0;
     }
 
     @Override
@@ -108,7 +116,6 @@ public class StackImplementation<E> implements StackInterface<E>{
             }
         }
         str.append("]");
-        String result = str.toString();
-        return result;
+        return str.toString();
     }
 }

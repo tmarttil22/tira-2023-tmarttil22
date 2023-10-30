@@ -1,5 +1,7 @@
 package oy.interact.tira.student;
 
+import java.util.EmptyStackException;
+
 import oy.interact.tira.util.StackInterface;
 
 public class ParenthesisChecker {
@@ -48,6 +50,7 @@ public class ParenthesisChecker {
     * @throws ParenthesesException if the parentheses did not match as intended.
     * @throws StackAllocationException If the stack cannot be allocated or reallocated if necessary.
     */
+
     public static int checkParentheses(StackInterface<Character> stack, String fromString) throws ParenthesesException {
       // TODO:
       // for each character in the input string
@@ -64,6 +67,60 @@ public class ParenthesisChecker {
       //         throw an exception, wrong kind of parenthesis were in the text (e.g. "asfa ( asdf } sadf")
       // if the stack is not empty after all the characters have been handled
       //   throw an exception since the string has more opening than closing parentheses.
-      return 0;
+      int lineNumber = 1;
+      int columnNumber = 1;
+      int parenthesesCount = 0;
+      boolean insideQuotes = false;
+
+      for (int i = 0; i < fromString.length(); i++) {
+         char c = fromString.charAt(i);
+      
+         if (c == '"') {
+             insideQuotes = !insideQuotes;
+         }
+
+         if (insideQuotes) {
+            if (c == '\n') {
+               lineNumber++;
+               columnNumber = 1;
+            }
+            else {
+               columnNumber++;
+            }
+         }
+         else {
+            if (c == '(' || c == '[' || c == '{') {
+               parenthesesCount++;
+               try {
+                  stack.push(c);
+               } catch (OutOfMemoryError O) {
+                  throw new ParenthesesException("Couldn't add the starting parenthesis to the stack", lineNumber, columnNumber, ParenthesesException.STACK_FAILURE);
+               }
+            }
+            else if (c == ')' || c == ']' || c == '}') {
+               parenthesesCount++;
+               if (stack.isEmpty()) {
+                  throw new ParenthesesException("There are too many closing parentheses", lineNumber, columnNumber, ParenthesesException.TOO_MANY_CLOSING_PARENTHESES);
+               }
+               char opening = stack.pop();
+               if ((c == ')' && opening != '(') || (c == ']' && opening != '[') || (c == '}' && opening != '{')) {
+                  throw new ParenthesesException("Opening and closing parentheses did not match", lineNumber, columnNumber, ParenthesesException.PARENTHESES_IN_WRONG_ORDER);
+               }
+            }
+         }
+             if (c == '\n') {
+                 lineNumber++;
+                 columnNumber = 1;
+             }
+             else {
+               columnNumber++;
+             }
+         }
+
+     if (!stack.isEmpty()) {
+      throw new ParenthesesException("There are too many opening parentheses", lineNumber, columnNumber, ParenthesesException.TOO_MANY_OPENING_PARENTHESES);
+     }
+
+     return parenthesesCount;
    }
 }

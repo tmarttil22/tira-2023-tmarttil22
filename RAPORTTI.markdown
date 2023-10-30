@@ -45,6 +45,9 @@ Aikakompleksisuusluokat molemmille insertionSort() sekä reverse() metodeille O(
 
 Jos taulukko on jo valmiiksi järjestyksessä nousevaan järjestykseen, ja se aiotaan lajitella laskevaan järjestykseen,
 sen järjestys kannattaa vaihtaa sillä for-loop käydään läpi "array.length / 2" verran, samalla kun lajittelumetodissa se käydään läpi "array.length" verran.
+
+
+
 ## 02-TASK
 Tehtävässä opin koodin korjaamista ja vian löytämistä seuraamalla missä virheet ovat tapahtuneet katsomalla virheilmoituksia, käymällä kaikki funktiokutsut mitkä johtavat tähän virheeseen läpi ja tarkasti ajatellen sekä pohtien huomaten, mikä ongelman juuri on.
 Vaikeaksi koin aluksi Comparable-rajapinnan ymmärtämisen mutta sain sen ymmärretyksi kun käsittelin metodeita mihin sen käyttö kuului.
@@ -57,9 +60,22 @@ Toteutettuja algoritmejä kutsutaan lineaarisiksi, koska niiden suoritusaika kas
 
 Kuvasta voidaan päätellä, että täyttöajan aikakompleksisuus on O(n), mutta hakuajan aikakompleksisuus pysyy aikalailla samana, lukuun ottamatta alkua jossa suhdeluku alkaa tosi korkealta (2.66 kun n=500, 0.73 kun n=1000), sekä näennäisesti satunnaisia piikkejä kun suhdeluku onkin huomattavasti eri. 
 ![Käyrät](image.png)
+
+
+
 ## 03-TASK
+Koin tämän tehtävän helpoksi, binarysearch oli helppo ymmärtää ja sen kaikki versiot helppo toteuttaa. Päätin tehdä binäärihaut iteratiivisesti.
+
+
 
 ## 04-TASK
+Tehtävän tekemisessä opin miten stackit toimivat, ja sain niistä syvempää ymmärrystä. Lisäksi tiedän nyt myös JSON-tiedostojen lukemisesta enemmän mitä aiemmin. Koin tehtävän olevan haastavuustasolla tosi tasainen kaikissa tehtävän osissa, en kokenut minkään olevan liian hankalaa tai niin helppoa että olisin päässyt vähällä. Viimeisimmän bugin löytäminen pop() metodista tuotti hankaluuksia.
+
+Aikakompleksisuusvaatimukset ovat saavuitettu, sillä kaikki O(1) metodit kestävät saman ajan suorittaa, riippumatta esimerkiksi syötöstä tai pinon senhetkisestä tilasta. kaikki O(n) aikakompleksiset metodit on myös toteutettu aikakompleksisuusrajoissa.
+
+Jos tarkistimen saanut teksti sisältää vain yhden tai parittoman määrän lainausmerkkejä, se lukee viimeisestä lainausmerkistä koko loppu tiedoston niin kuin se kuuluisi lainausmerkkien sisälle, eikä laskisi mukaan siellä esiintyviä sulkeita. Tarkistin ei myöskään ilmoittaisi tästä käyttäjälle, joten oikeellisuus ei toteudu jos lainausmerkkejä on käytetty väärin.
+
+
 
 ## 05-TASK
 
