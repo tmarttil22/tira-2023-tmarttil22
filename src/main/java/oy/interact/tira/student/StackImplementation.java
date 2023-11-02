@@ -19,7 +19,7 @@ public class StackImplementation<E> implements StackInterface<E>{
 
     public StackImplementation(int cap) {
         itemArray = new Object[cap];
-        capacity = cap ;
+        capacity = cap;
         elementAmount = 0;
     }
 
