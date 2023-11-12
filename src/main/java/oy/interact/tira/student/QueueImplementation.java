@@ -54,24 +54,18 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         try {
             Object [] itemArrayNew = new Object[newCapacity];
             int currentSize = size();
-            
-            if (head <= tail) {
-                System.arraycopy(itemArray, head, itemArrayNew, 0, currentSize);
-            }
-            else { // with love from chatGPT, prompt "how would i make the arraycopy line in this code "rearrange" the array to be from head to tail?"
-                int elementsFromEnd = capacity() - head;
-                System.arraycopy(itemArray, head, itemArrayNew, 0, elementsFromEnd); // copying the elements on the right side of the null elements, in other terms from index head to elementsFromEnd (the last index of the original array)
-                System.arraycopy(itemArray, 0, itemArrayNew, elementsFromEnd, currentSize - elementsFromEnd); // and copying the elements on the left side of the nulls, in other terms, from index 0 to tail
-            }
+            System.arraycopy(itemArray, head, itemArrayNew, 0, size() - head);
+            System.arraycopy(itemArray, 0, itemArrayNew, size() - head, tail);
 
             capacity = newCapacity;
             head = 0;
-            tail = currentSize - 1;
+            tail = currentSize;
             itemArray = itemArrayNew;
         } catch (OutOfMemoryError O) {
             throw new OutOfMemoryError("Couldn't add any more capacity");
         }
     }
+
 
     @SuppressWarnings("unchecked")
     @Override
@@ -81,7 +75,7 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         }
         E removed = (E)itemArray[head];
         itemArray[head] = null;
-        head = (head + 1) % capacity();
+        head = (head + 1) % capacity(); //moves the head to the next element in the queue
         elementAmount--;
         return removed;
     }
