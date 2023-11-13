@@ -78,6 +78,13 @@ Jos tarkistimen saanut teksti sisältää vain yhden tai parittoman määrän la
 
 
 ## 05-TASK
+Hankalimmaksi tehtävässä koin allocateSpace() methodin toteuttamisen, koska koin suuria hankaluuksia saada ymmärrykseen miten ottaisin jonon muodon (head sekä tail indeksien muuttuvat arvot) konseptin mukaan arrayn kopioon. Lopulta onnistuin, kun vähensin monimutkaisuutta ratkaisussani jota oli kertynyt liiallisen yrittelyn takia. Jonon toiminnallisuuden ymmärtäminen oli aluksi haastavaa mutta tietyn ajan kuluttua oli sisästettynä. toString oli myös hiukan haastava toteuttaa, mutta muuten en kokenut tehtävässä hankaluuksia.
+
+Linkitettyyn listaan ei ikinä tarvitse allokoida lisää tilaa, koska jokainen uusi lisätty node sisältää viittauksen seuraavaan (mahdollisesti myös edelliseen) nodeen. Tämän takia linkitety lista ei vaadi valmiiksi määrättyä määrää tilaa muistista, vaan se kasvaa tai pienenee nodejen määrien mukaan. Samaan aikaan jonossa on vakaa määrä muistia, kunnes sitä täytyy lisätä. Riippuu käyttötarkoituksesta, kumpi sopii paremmin: jos tiedetään että elementtien lisäämistä ja poistamista tapahtuu usein, voi linkitetty lista olla parempi. Jos taas satunnainen pääsy tietoihin on tärkeämpää/useammin tapahtuvaa, luultavasti jono toimii tehokkaammin.
+
+Kaikki methodit jotka vaativat O(1) aikakompleksisuutta ovat O(1) aikakompleksisiä, koska kaikissa niissä menee täysin sama aika suorittaa riippumatta mitä metodille syötetään. Poikkeuksena enqueue() silloin kun allocateSpace() methodia kutsutaan, koska sen aikakompleksisuus on O(n), sekä luonnollisesti toString() (jossa for-loop jokaisen jonon alkion läpi). Yhdessäkään O(1) aikakompleksisuutta vaativassa methodissa ei ole mitään silmukkaa.
+
+
 
 ## 06-TASK
 
