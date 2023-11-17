@@ -143,17 +143,98 @@ public class Algorithms {
    }
 
 
-
+   @SuppressWarnings("unchecked")
    public static <E extends Comparable<E>> void fastSort(E [] array) {
-      // TODO: Student, implement this.
+      if (array.length <= 1) {
+         return;
+      }
+
+      int middleIndex = array.length / 2;
+      Object[] leftArray = new Object[middleIndex];
+      Object[] rightArray = new Object[array.length - middleIndex];
+
+      System.arraycopy(array, 0, leftArray, 0, leftArray.length);
+      System.arraycopy(array, middleIndex, rightArray, 0, rightArray.length);
+
+      fastSort((E[]) leftArray);
+      fastSort((E[]) rightArray);
+
+      merge(array, (E[])leftArray, (E[])rightArray);
    }
+
+
 
    public static <E> void fastSort(E [] array, Comparator<E> comparator) {
-      // TODO: Student, implement this.
+      fastSort(array, 0, array.length, comparator);
    }
 
+   @SuppressWarnings("unchecked")
    public static <E> void fastSort(E [] array, int fromIndex, int toIndex, Comparator<E> comparator) {
-      // TODO: Student, implement this.
+      if (toIndex - fromIndex < 0) {
+         return;
+      }
+
+      int middleIndex = (toIndex - fromIndex) / 2;
+      Object[] leftArray = new Object[middleIndex];
+      Object[] rightArray = new Object[array.length - middleIndex];
+
+      System.arraycopy(array, 0, leftArray, 0, leftArray.length);
+      System.arraycopy(array, middleIndex, rightArray, 0, rightArray.length);
+
+      fastSort((E[]) leftArray, 0, middleIndex, comparator);
+      fastSort((E[]) rightArray, 0, array.length - middleIndex - 1, comparator);
+
+      merge(array, (E[])leftArray, (E[])rightArray, comparator);
+   }
+
+   // Comparator merge method
+   private static <E> void merge(E [] array, E [] leftArray, E [] rightArray, Comparator<E> comparator) {
+      int i = 0; // Left array index
+      int j = 0; // Right array index
+      int k = 0; // Merged array index
+
+      while (i < leftArray.length && j < rightArray.length) {
+         if (comparator.compare(leftArray[i], rightArray[j]) < 0) {
+            array[k++] = leftArray[i++];
+         }
+         else {
+            array[k++] = rightArray[j++];
+         }
+      }
+
+
+      while (i < leftArray.length) {
+         array[k++] = leftArray[i++];
+      }
+      while (j < rightArray.length) {
+         array[k++] = rightArray[j++];
+      }
+      
+   }
+
+      // Comparable merge method
+      private static <E extends Comparable<E>> void merge(E [] array, E [] leftArray, E [] rightArray) {
+      int i = 0; // Left array index
+      int j = 0; // Right array index
+      int k = 0; // Merged array index
+
+      while (i < leftArray.length && j < rightArray.length) {
+         if (leftArray[i].compareTo(rightArray[j]) < 0) {
+            array[k++] = leftArray[i++];
+         }
+         else {
+            array[k++] = rightArray[j++];
+         }
+      }
+
+
+      while (i < leftArray.length) {
+         array[k++] = leftArray[i++];
+      }
+      while (j < rightArray.length) {
+         array[k++] = rightArray[j++];
+      }
+      
    }
 
 }
