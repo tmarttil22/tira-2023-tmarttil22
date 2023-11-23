@@ -143,21 +143,28 @@ public class Algorithms {
    }
 
 
-   @SuppressWarnings("unchecked")
+   
    public static <E extends Comparable<E>> void fastSort(E [] array) {
+      fastSort(array, 0, array.length);
+   }
+
+
+
+   @SuppressWarnings("unchecked")
+   public static <E extends Comparable<E>> void fastSort(E[] array, int fromIndex, int toIndex) {
       if (array.length <= 1) {
          return;
       }
 
-      int middleIndex = array.length / 2;
+      int middleIndex = (toIndex - fromIndex) / 2;
       Object[] leftArray = new Object[middleIndex];
       Object[] rightArray = new Object[array.length - middleIndex];
 
       System.arraycopy(array, 0, leftArray, 0, leftArray.length);
       System.arraycopy(array, middleIndex, rightArray, 0, rightArray.length);
 
-      fastSort((E[]) leftArray);
-      fastSort((E[]) rightArray);
+      fastSort((E[]) leftArray, 0, middleIndex);
+      fastSort((E[]) rightArray, 0, array.length - middleIndex - 1);
 
       merge(array, (E[])leftArray, (E[])rightArray);
    }
@@ -167,6 +174,8 @@ public class Algorithms {
    public static <E> void fastSort(E [] array, Comparator<E> comparator) {
       fastSort(array, 0, array.length, comparator);
    }
+
+
 
    @SuppressWarnings("unchecked")
    public static <E> void fastSort(E [] array, int fromIndex, int toIndex, Comparator<E> comparator) {
@@ -186,6 +195,8 @@ public class Algorithms {
 
       merge(array, (E[])leftArray, (E[])rightArray, comparator);
    }
+
+
 
    // Comparator merge method
    private static <E> void merge(E [] array, E [] leftArray, E [] rightArray, Comparator<E> comparator) {
