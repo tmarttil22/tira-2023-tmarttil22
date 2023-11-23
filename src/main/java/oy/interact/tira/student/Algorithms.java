@@ -157,16 +157,16 @@ public class Algorithms {
       }
 
       int middleIndex = (toIndex - fromIndex) / 2;
-      Object[] leftArray = new Object[middleIndex];
-      Object[] rightArray = new Object[array.length - middleIndex];
+      E [] leftArray = (E []) new Comparable[middleIndex];
+      E [] rightArray =(E []) new Comparable[array.length - middleIndex];
 
       System.arraycopy(array, 0, leftArray, 0, leftArray.length);
       System.arraycopy(array, middleIndex, rightArray, 0, rightArray.length);
 
-      fastSort((E[]) leftArray, 0, middleIndex);
-      fastSort((E[]) rightArray, 0, array.length - middleIndex - 1);
+      fastSort(leftArray, 0, middleIndex);
+      fastSort(rightArray, 0, array.length - middleIndex - 1);
 
-      merge(array, (E[])leftArray, (E[])rightArray);
+      merge(array, leftArray, rightArray);
    }
 
 
@@ -184,16 +184,16 @@ public class Algorithms {
       }
 
       int middleIndex = (toIndex - fromIndex) / 2;
-      Object[] leftArray = new Object[middleIndex];
-      Object[] rightArray = new Object[array.length - middleIndex];
+      E [] leftArray = (E []) new Comparable[middleIndex];
+      E [] rightArray =(E []) new Comparable[array.length - middleIndex];
 
       System.arraycopy(array, 0, leftArray, 0, leftArray.length);
       System.arraycopy(array, middleIndex, rightArray, 0, rightArray.length);
 
-      fastSort((E[]) leftArray, 0, middleIndex, comparator);
-      fastSort((E[]) rightArray, 0, array.length - middleIndex - 1, comparator);
+      fastSort(leftArray, 0, middleIndex, comparator);
+      fastSort(rightArray, 0, array.length - middleIndex - 1, comparator);
 
-      merge(array, (E[])leftArray, (E[])rightArray, comparator);
+      merge(array, leftArray, rightArray, comparator);
    }
 
 
