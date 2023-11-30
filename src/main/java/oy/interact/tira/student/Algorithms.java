@@ -164,7 +164,7 @@ public class Algorithms {
 
 
    public static <E> void fastSort(E [] array, Comparator<E> comparator) {
-      fastSort(array, 0, array.length, comparator);
+      fastSort(array, 0, array.length - 1, comparator);
    }
 
 
