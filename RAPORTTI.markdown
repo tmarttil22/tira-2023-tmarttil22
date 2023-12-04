@@ -87,6 +87,11 @@ Kaikki methodit jotka vaativat O(1) aikakompleksisuutta ovat O(1) aikakompleksis
 
 
 ## 06-TASK
+Opin tehtävässä miten mergesort toimii koodaamisen tasolla, sekä miten heapsort ja quicksort toimivat pinnallisella tasolla. Mergesortin toiminta oli hankala sisäistää ja toteuttaa koodiksi.
+
+TEE ANALYYSI JOS/KUN SAAT TESTIT TOIMIMAAN ("Could not read coders to memory for test")
+
+
 
 ## 07-TASK
 
