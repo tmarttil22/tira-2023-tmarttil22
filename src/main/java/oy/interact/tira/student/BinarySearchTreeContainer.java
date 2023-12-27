@@ -2,30 +2,13 @@ package oy.interact.tira.student;
 
 import java.util.Comparator;
 import java.util.function.Predicate;
+import java.lang.Math;
 
 import oy.interact.tira.util.Pair;
 import oy.interact.tira.util.TIRAKeyedOrderedContainer;
 import oy.interact.tira.util.Visitor;
 
 public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TIRAKeyedOrderedContainer<K, V> {
-
-    class TreeNode<K extends Comparable<K>, V> {
-
-        private TreeNode(K key, V value) {
-            this.keyValue = new Pair<>(key, value);
-            this.left = this.right = null;
-        }
-
-        private int hash = -1;
-        Pair<K, V> keyValue;
-        TreeNode<K,V> left = null;
-        TreeNode<K,V> right = null;
-        TreeNode<K,V> parent;
-    }
-
-    class Tree<K extends Comparable<K>, V> {
-        private TreeNode<K,V> root;
-    }
 
 
 
@@ -48,13 +31,22 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             root = new TreeNode(key, value);
             size++;
             maxDepth = 1;
+        } else {
+            TreeNode.addDepth = 1;
+            if (root.insert(key, value)) {      // if this creates a new node (returns true), increase size
+                maxDepth = Math.max(TreeNode.addDepth, maxDepth);
+                size++;
+            }
         }
+
     }
 
     @Override
     public V get(K key) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        if (root == null) {
+            return null;
+        }
+        return root.find(key);
     }
 
     @Override
@@ -100,8 +92,29 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
     @Override
     public int indexOf(K itemKey) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'indexOf'");
+        if (root == null) {
+            return -1;
+        }
+        int index = 0;
+        StackImplementation<TreeNode<K, V>> nodeStack = new StackImplementation();
+        TreeNode<K, V> current = root;
+        TreeNode<K, V> parent = null;
+
+        while (!nodeStack.isEmpty() || current != null) {
+            if (current != null) {
+                nodeStack.push(current);
+                parent = current;
+                current = current.left();
+            } else {
+                parent = nodeStack.pop();
+                current = parent.right();
+                if (parent.getKey().compareTo(itemKey) == 0) {
+                    return index;
+                }
+                index++;
+            }
+        }
+        return -1;
     }
 
     @Override
