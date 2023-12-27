@@ -8,7 +8,7 @@ public class TreeNode<K extends Comparable<K>, V> {
         this.keyValue = new Pair<>(key, value);
         this.left = this.right = null;
     }
-    
+
     private K key;
     private V value;
 
@@ -19,6 +19,7 @@ public class TreeNode<K extends Comparable<K>, V> {
     TreeNode<K,V> left = null;
     TreeNode<K,V> right = null;
     TreeNode<K,V> parent;
+    
 
     public boolean insert(K key, V value) {
          if (this.value.equals(value)) {
