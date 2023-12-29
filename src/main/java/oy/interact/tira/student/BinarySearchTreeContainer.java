@@ -78,10 +78,21 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         throw new UnsupportedOperationException("Unimplemented method 'ensureCapacity'");
     }
 
+
+    // maybe start doing this later, idk tho
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+        TreeNode<K,V> current = root.getLeft();
+        TreeNode<K,V> next = null;
+
+        while (current != null) {
+            next = current.getLeft();
+            current = null;
+        }
+
+        root = null;
+        size = 0;
+        maxDepth = 0;
     }
 
     @Override
@@ -104,10 +115,10 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             if (current != null) {
                 nodeStack.push(current);
                 parent = current;
-                current = current.left();
+                current = current.getLeft();
             } else {
                 parent = nodeStack.pop();
-                current = parent.right();
+                current = parent.getRight();
                 if (parent.getKey().compareTo(itemKey) == 0) {
                     return index;
                 }
@@ -117,22 +128,50 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         return -1;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Pair<K, V> getIndex(int index) throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIndex'");
+        if (index < 0 || index >= size() ) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+
+        // these variables change when they get handled in the inOrderTraversal recursive method call process
+        Pair<K,V>[] result = new Pair[1];
+        int[] currentIndex = {0};
+        
+        root.inOrderTraversal(root, index, currentIndex, result);
+        return result[0];
     }
 
     @Override
     public int findIndex(Predicate<V> searcher) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findIndex'");
+        int[] currentIndex = {0};
+        return inOrderFindIndex(root, searcher, currentIndex);
     }
 
+    private int inOrderFindIndex(TreeNode<K, V> currentNode, Predicate<V> searcher, int[] currentIndex) {
+        if (currentNode == null) {
+            return -1;
+        }
+
+        int resultLeft = inOrderFindIndex(currentNode.getLeft(), searcher, currentIndex);
+        if (resultLeft != -1) {
+            return resultLeft;
+        }
+
+        if (searcher.test(currentNode.getValue())) {
+            return currentIndex[0];
+        }
+        currentIndex[0]++;
+
+        int resultRight = inOrderFindIndex(currentNode.getRight(), searcher, currentIndex);
+        return resultRight;
+    }
+
+    // NO NEED TO IMPLEMENT (POSSIBLY) IF VISITOR ISNT USED IN METHODS
     @Override
     public void accept(Visitor<K, V> visitor) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'accept'");
     }
-    
 }
