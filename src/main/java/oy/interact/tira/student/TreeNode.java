@@ -50,6 +50,8 @@ public class TreeNode<K extends Comparable<K>, V> {
         return result;
     }
 
+
+
     public V find(K key) {
         V result = null;
 
@@ -68,7 +70,9 @@ public class TreeNode<K extends Comparable<K>, V> {
         return result;
     }
 
-    // ChatGPT utilized, prompt used "how would i do a getIndex method for a binary search tree recursively"
+
+
+    // ChatGPT utilized, prompt used "how would i do a getIndex method for a binary search tree recursively", modified to account for already written methods and variable names
     public void inOrderTraversal(TreeNode<K, V> currentNode, int targetIndex, int[] currentIndex, Pair<K, V>[] result) {
         if (currentNode == null || currentIndex[0] >= targetIndex) {
             return;
@@ -82,6 +86,8 @@ public class TreeNode<K extends Comparable<K>, V> {
         }
         inOrderTraversal(currentNode.getRight(), targetIndex, currentIndex, result);
     }
+
+
 
     public K getKey() {
         return key;
@@ -101,6 +107,11 @@ public class TreeNode<K extends Comparable<K>, V> {
 
     public TreeNode<K,V> getParent() {
         return parent;
+    }
+
+    public void setKeyValue(K key, V value) {
+        this.key = key;
+        this.value = value;
     }
 
 }
