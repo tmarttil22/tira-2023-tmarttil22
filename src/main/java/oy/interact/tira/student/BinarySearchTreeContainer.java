@@ -24,7 +24,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 	}
 
 
-
+    @SuppressWarnings ("unchecked")
     @Override
     public void add(K key, V value) throws OutOfMemoryError, IllegalArgumentException {
         if (root == null) {
@@ -41,6 +41,8 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
     }
 
+
+
     @Override
     public V get(K key) throws IllegalArgumentException {
         if (root == null) {
@@ -48,6 +50,8 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         }
         return root.find(key);
     }
+
+
 
     @Override
     public V remove(K key) throws IllegalArgumentException {
@@ -62,6 +66,8 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         int[] currentIndex = {0};
         return inOrderFind(root, searcher, currentIndex);
     }
+
+
 
     // essentially the same method as inOrderFindIndex, except returns type V
     private V inOrderFind(TreeNode<K, V> currentNode, Predicate<V> searcher, int[] currentIndex) {
@@ -94,6 +100,8 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         return maxDepth;
     }
 
+
+
     @Override
     public void ensureCapacity(int capacity) throws OutOfMemoryError, IllegalArgumentException {
         if (capacity == 0 || capacity < size()) {
@@ -120,7 +128,6 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
 
 
-    // maybe start doing this later, idk tho
     @Override
     public void clear() {
         clearTree(root);
@@ -139,11 +146,24 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     }
 
 
-
+    @SuppressWarnings ("unchecked")
     @Override
     public Pair<K, V>[] toArray() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArray'");
+        Pair<K, V>[] result = new Pair[size()];
+        int[] currentIndex = {0};
+
+        inOrderToArray(root, result, currentIndex);
+        return result;
+    }
+
+    private void inOrderToArray(TreeNode<K, V> currentNode, Pair<K, V>[] array, int[] currentIndex) {
+        if (currentNode != null) {
+            inOrderToArray(currentNode.getLeft(), array, currentIndex);
+    
+            array[currentIndex[0]++] = new Pair<>(currentNode.getKey(), currentNode.getValue());
+    
+            inOrderToArray(currentNode.getRight(), array, currentIndex);
+        }
     }
 
 
@@ -223,10 +243,18 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
 
 
-    // NO NEED TO IMPLEMENT (POSSIBLY) IF VISITOR ISNT USED IN METHODS
+    
     @Override
     public void accept(Visitor<K, V> visitor) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visit(this);
+        inOrderAccept(root, visitor);
+    }
+
+    private void inOrderAccept(TreeNode<K, V> currentNode, Visitor<K, V> visitor) {
+        if (currentNode != null) {
+            //currentNode.accept(visitor);
+            inOrderAccept(currentNode.getLeft(), visitor);
+            inOrderAccept(currentNode.getRight(), visitor);
+        }
     }
 }

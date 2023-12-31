@@ -89,7 +89,21 @@ Kaikki methodit jotka vaativat O(1) aikakompleksisuutta ovat O(1) aikakompleksis
 ## 06-TASK
 Opin tehtävässä miten mergesort toimii koodaamisen tasolla, sekä miten heapsort ja quicksort toimivat pinnallisella tasolla. Mergesortin toiminta oli hankala sisäistää ja toteuttaa koodiksi.
 
-TEE ANALYYSI JOS/KUN SAAT TESTIT TOIMIMAAN ("Could not read coders to memory for test")
+CodersSlowComparatorTests tuloksien ja niistä tehtyjen käyrien perusteella voi päätellä, että suoritusaika kasvaa lineaarista nopeammin korkeammaksi, ja silmämääräisesti algoritmin aikakompleksisuusluokka voisi olla O(n logn)
+
+Lisäksi aika, jota käytetään yhden elementin käsittelyyn, kasvaa moninkertaiseksi verrattuna pienen, 100 koodaajan tiedoston aikaan. Pienimmillään aikaa kului 0,033 ms per elementti 1000 koodarin tiedostossa, suurimmillaan kului 2,82 ms 100 000 koodarin tiedostossa. Tässä huomataan yksi syy, miksi hitaan algoritmin aikakompleksisuusluokka ei ole O(n)
+![Slow Comparator test graphs](image-1.png)
+
+CodersFastComparatorTests tuloksista tuotettu, kuvassa näkyvä, "Fast test ms" käyrä taas kasvaa silminnähden lineaarisesti suuremmaksi, ja verrattuna 2 miljoonan koodareiden tiedostoa 1 miljoonan koodarin tiedostoon, käsittelyyn kuluva aika on n. 48%. Tästä syystä, sekä käyrän lineaarisesta muodosta, aikakompleksisuusluokka on lähellä O(n), jos dataa olisi paljon enemmän, voitaisiin laskea tarkemmalla tarkkuudella algoritmin aikakompleksisuusluokka.
+
+Ms/element arvo alkaa huomattavasti muita arvoja korkeamalta pienellä aineistomäärällä, ja nopeasti tipahtaa alas alle 0,01ms käsittelyaikaan per elementti. Tämä käsittelyaika elementille kasvaa todella vähän vaikka tiedoston koko kasvaisi todella paljon, ero 5000 ja 2 000 000 koodarin tiedoston keskiverto ms/element käsittelyajan on 0,004 - 0,002 = 0,002ms
+![Fast Comparator test graphs](image-2.png)
+
+![Raw numbers in Excel](image-3.png)
+
+Nopea algoritmi käsitteli testit ajassa 488, ja hidas ajassa 365 212. Nopea algoritmi käytti siis 0.1% hitaan ajasta, saman asian hoitamiseen. Hidas algoritmi (insertionsort) joutuu vaihtelemaan paljon elementtien paikkoja koko listasta kun siihen lisätään uusia elementtejä, joka johtaa suuremmilla elementtimäärillä suurempiin ms/element käsittelyaikoihin. Mergesort taas tekee päälistasta pienempiä listoja, joihin lisääminen tapahtuu paljon tehokkaammin
+
+Insertionsort on vielä hyväksyttävän tehokas joihinkin käyttötarkoituksiin pienillä tiedoston elementtimäärillä, mutta mergesort on näiden testien nojalla (yli 100 elementin tiedostoissa) aina tehokkaampi ja nopeampi.
 
 
 
