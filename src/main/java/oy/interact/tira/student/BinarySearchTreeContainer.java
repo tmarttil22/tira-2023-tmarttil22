@@ -1,6 +1,7 @@
 package oy.interact.tira.student;
 
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.lang.Math;
 
@@ -206,12 +207,26 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
         // these variables change when they get handled in the inOrderTraversal recursive method call process
         Pair<K,V>[] result = new Pair[1];
-        int[] currentIndex = {0};
+        AtomicInteger currentIndex = new AtomicInteger(-1);     // initial value of -1, because before the first value gets looked at in the inOrderTraversal if-statement, 1 gets added to it (this takes care of index 0)
         
-        root.inOrderTraversal(root, index, currentIndex, result);
+        inOrderTraversal(root, index, currentIndex, result);
         return result[0];
     }
 
+    // ChatGPT utilized, prompt used "how would i do a getIndex method for a binary search tree recursively", modified to account for already written methods and variable names and changed to work with AtomicInteger
+    public void inOrderTraversal(TreeNode<K, V> currentNode, int targetIndex, AtomicInteger currentIndex, Pair<K, V>[] result) {
+        if (currentNode == null || currentIndex.get() > targetIndex) {
+            return;
+        }
+        inOrderTraversal(currentNode.getLeft(), targetIndex, currentIndex, result);
+
+        currentIndex.incrementAndGet();
+        if (currentIndex.get() == targetIndex) {
+            result[0] = new Pair<K, V>(currentNode.getKey(), currentNode.getValue());
+            return;
+        }
+        inOrderTraversal(currentNode.getRight(), targetIndex, currentIndex, result);
+    }
 
 
     
