@@ -69,7 +69,7 @@ Koin tämän tehtävän helpoksi, binarysearch oli helppo ymmärtää ja sen kai
 ![Sort in relation to growth of n](image-13.png)
 ![Search in relation to growth of n](image-14.png)
 
-Lineaarisen haun aikakompleksisuus on O(n), samalla kun puolitushaun aikakompleksisuus on suurilla aineistolla todella huomattavasti parempi, O(logn). Kuvasta nähdään miten taulukon hakuaika n suhteen pysyy alhaalla (heti ensimmäisen piikin jälkeen) seuraten O(logn) kaavaa: lo
+Lineaarisen haun aikakompleksisuus on O(n), samalla kun puolitushaun aikakompleksisuus on suurilla aineistolla todella huomattavasti parempi, O(logn). Kuvasta nähdään miten taulukon hakuaika n suhteen pysyy alhaalla (heti ensimmäisen piikin jälkeen) ja pysyy hyvin O(logn) suunnilla.
 
 ## 04-TASK
 Tehtävän tekemisessä opin miten stackit toimivat, ja sain niistä syvempää ymmärrystä. Lisäksi tiedän nyt myös JSON-tiedostojen lukemisesta enemmän mitä aiemmin. Koin tehtävän olevan haastavuustasolla tosi tasainen kaikissa tehtävän osissa, en kokenut minkään olevan liian hankalaa tai niin helppoa että olisin päässyt vähällä. Viimeisimmän bugin löytäminen pop() metodista tuotti hankaluuksia.
