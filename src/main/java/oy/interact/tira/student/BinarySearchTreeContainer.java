@@ -21,7 +21,6 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
 	public BinarySearchTreeContainer(Comparator<K> comparator) {
 		this.comparator = comparator;
-        root = null;
 	}
 
 
@@ -34,7 +33,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             maxDepth = 1;
         } else {
             TreeNode.addDepth = 1;
-            if (root.insert(key, value)) {      // if this creates a new node (returns true), increase size
+            if (root.insert(key, value, comparator)) {      // if this creates a new node (returns true), increase size
                 maxDepth = Math.max(TreeNode.addDepth, maxDepth);
                 size++;
             }
@@ -49,7 +48,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         if (root == null) {
             return null;
         }
-        return root.find(key);
+        return root.find(key, comparator);
     }
 
 
@@ -187,7 +186,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             } else {
                 parent = nodeStack.pop();
                 current = parent.getRight();
-                if (parent.getKey().compareTo(itemKey) == 0) {
+                if (comparator.compare(itemKey, parent.getKey()) <= 0) {
                     return index;
                 }
                 index++;
@@ -255,8 +254,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         int resultRight = inOrderFindIndex(currentNode.getRight(), searcher, currentIndex);
         return resultRight;
     }
-
-
+    
 
     
     @Override

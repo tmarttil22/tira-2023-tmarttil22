@@ -52,21 +52,24 @@ sen järjestys kannattaa vaihtaa sillä for-loop käydään läpi "array.length 
 Tehtävässä opin koodin korjaamista ja vian löytämistä seuraamalla missä virheet ovat tapahtuneet katsomalla virheilmoituksia, käymällä kaikki funktiokutsut mitkä johtavat tähän virheeseen läpi ja tarkasti ajatellen sekä pohtien huomaten, mikä ongelman juuri on.
 Vaikeaksi koin aluksi Comparable-rajapinnan ymmärtämisen mutta sain sen ymmärretyksi kun käsittelin metodeita mihin sen käyttö kuului.
 
-// täytä tähän kun saat lajittelun toimimaan sovelluksessa
-
 Jos aineisto on jo valmiiksi lajiteltu, kannattaa käyttää reverse-algoritmia, sillä sillä tavalla täytyy käydä vain puolet aineiston alkioista läpi, säästäen aikaa.
 
 Toteutettuja algoritmejä kutsutaan lineaarisiksi, koska niiden suoritusaika kasvaa lineaarisesti (suoraan) ylöspäin n:n kasvaessa. Big-O notaatiossa tätä merkitään O(n).
 
 Kuvasta voidaan päätellä, että täyttöajan aikakompleksisuus on O(n), mutta hakuajan aikakompleksisuus pysyy aikalailla samana, lukuun ottamatta alkua jossa suhdeluku alkaa tosi korkealta (2.66 kun n=500, 0.73 kun n=1000), sekä näennäisesti satunnaisia piikkejä kun suhdeluku onkin huomattavasti eri. 
 ![Käyrät](image.png)
+![Käyrät 2](image-11.png)
 
 
 
 ## 03-TASK
 Koin tämän tehtävän helpoksi, binarysearch oli helppo ymmärtää ja sen kaikki versiot helppo toteuttaa. Päätin tehdä binäärihaut iteratiivisesti.
 
+![Fill in relation to growth of n](image-12.png)
+![Sort in relation to growth of n](image-13.png)
+![Search in relation to growth of n](image-14.png)
 
+Lineaarisen haun aikakompleksisuus on O(n), samalla kun puolitushaun aikakompleksisuus on suurilla aineistolla todella huomattavasti parempi, O(logn). Kuvasta nähdään miten taulukon hakuaika n suhteen pysyy alhaalla (heti ensimmäisen piikin jälkeen) seuraten O(logn) kaavaa: lo
 
 ## 04-TASK
 Tehtävän tekemisessä opin miten stackit toimivat, ja sain niistä syvempää ymmärrystä. Lisäksi tiedän nyt myös JSON-tiedostojen lukemisesta enemmän mitä aiemmin. Koin tehtävän olevan haastavuustasolla tosi tasainen kaikissa tehtävän osissa, en kokenut minkään olevan liian hankalaa tai niin helppoa että olisin päässyt vähällä. Viimeisimmän bugin löytäminen pop() metodista tuotti hankaluuksia.
@@ -89,7 +92,7 @@ Kaikki methodit jotka vaativat O(1) aikakompleksisuutta ovat O(1) aikakompleksis
 ## 06-TASK
 Opin tehtävässä miten mergesort toimii koodaamisen tasolla, sekä miten heapsort ja quicksort toimivat pinnallisella tasolla. Mergesortin toiminta oli hankala sisäistää ja toteuttaa koodiksi.
 
-CodersSlowComparatorTests tuloksien ja niistä tehtyjen käyrien perusteella voi päätellä, että suoritusaika kasvaa lineaarista nopeammin korkeammaksi, ja silmämääräisesti algoritmin aikakompleksisuusluokka voisi olla O(n logn)
+CodersSlowComparatorTests tuloksien ja niistä tehtyjen käyrien perusteella voi päätellä, että suoritusaika kasvaa lineaarista nopeammin korkeammaksi, ja silmämääräisesti algoritmin aikakompleksisuusluokka voisi olla O(n*logn)
 
 Lisäksi aika, jota käytetään yhden elementin käsittelyyn, kasvaa moninkertaiseksi verrattuna pienen, 100 koodaajan tiedoston aikaan. Pienimmillään aikaa kului 0,033 ms per elementti 1000 koodarin tiedostossa, suurimmillaan kului 2,82 ms 100 000 koodarin tiedostossa. Tässä huomataan yksi syy, miksi hitaan algoritmin aikakompleksisuusluokka ei ole O(n)
 ![Slow Comparator test graphs](image-1.png)
@@ -108,6 +111,37 @@ Insertionsort on vielä hyväksyttävän tehokas joihinkin käyttötarkoituksiin
 
 
 ## 07-TASK
+
+Tehtävä opetti sekä sai ajattelemaan syvästi miten BST toimii, minkälainen siitä muodostuu ja mitä hyötyjä siitä on muihin tietorakenteisiin verrattuna. Hankalaksi koin itse TreeNode luokan luomisen ja sen oikeellisen käyttämisen itse BSTContainerissa, sekä BST:n tekemisen aloittaminen tuntui vaikealta ennenkuin pääsin vauhtiin.
+
+Jos puut täyttäisi tasapainoisesti, puun syvyydet olisivat jokaisella aineistomäärällä:
+10->4    100->7    1000->10    5000->13    10 000->14    50 000->16    100 000->17    1 000 000->20    2 000 000->21
+
+Minun implementoivani algoritmin puun syvyydet (sortataan jokaista tulosta varten täydellä nimellä) olivat taas:
+10->5    100->11    1000->20    5000->27    10 000->29    50 000->36    100 000->41    1 000 000->48    2 000 000->ei mitattu
+(Tulokset vaihtelevat kun vaihdellaan jatkuvasti esim. full name asc. ja desc. välillä, puun pituus voi muuttua paljon, mitä suurempi aineisto, sitä suurempi mahdollisuus huonommalle puulle. Dokumentoin tähän lyhyimmät tulokset)
+(Lisäksi Coder nimillä puista tulee paljon pidempiä kuin oikeilla nimillä)
+
+Suurin osa metodeista on tehty toteutustavalla A, mutta indexOf() on tehty iteroiden tavalla B. Rekursiivinen tapa tuntui muuten helpoimmalta tehdä, mutta indexOf() metodin tapauksessa iteroiva tapa tuntui helpommalta ymmärtää ja sisäistää. Jos saisin valita uudelleen, harkitsisin Visitorin tekemistä että oppisin, miten se toimisi.
+
+![BST vs Simplecontainer add times per element](image-4.png)
+
+![Simplecontainer add time/item chart](image-8.png)
+
+Elementtien lisääminen kasvaa bst:llä todella minimaalisen määrän per elementti (puhutaan millisekunnin kymmenestuhannesosista) kun aineiston koko kasvaa, samalla kun simplecontainerin aika per elementti kasvaa yli millisekuntiin
+100 000 kokoisella aineistolla.
+
+![BST search time chart](image-7.png)
+
+Hakuaika BST:n kanssa kasvaa vain kymmenissä millisekunneissa, samalla kun simplecontainerin hakuaika kasvaa jo 50 000 yli 10 sekuntiin
+
+![BST get(index) time chart](image-6.png)
+
+BST:n getIndex() metodiin menevä aika kasvaa suuremmalla tahdilla, mitä suurempi aineiston määrä on. Jos tässä implementaatiossa käytettäisiin tapaa D (lapsisolmujen määrän tiedon hyödyntämistä), olisi algoritmi tässä satoja kertoja tehokkaampi ja koko aineistoon ei menisi monia sekunteja.
+
+![Simplecontainer raw data](image-9.png)
+
+![BST raw data](image-10.png)
 
 ## 08-TASK
 

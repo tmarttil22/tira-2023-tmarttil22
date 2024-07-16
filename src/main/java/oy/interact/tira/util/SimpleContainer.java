@@ -75,7 +75,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 		}
 		else {
 			for (int i = 0; i < count; i++) {
-				if (element.compareTo(array[i]) == 0) {
+				if (usingComparator.compare(element, array[i]) == 0) {
 					return i;
 				}
 			}
@@ -212,13 +212,15 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort() {
-		Algorithms.fastSort(toArray(), 0, count);
+		Algorithms.fastSort(array, 0, count - 1);
+		sorted = true;
 	}
 
 	// TEACHERS: TODO: Remove the call to Algorithms sort method.
 	@Override
 	public void sort(Comparator<E> usingComparator) {
-		Algorithms.fastSort(toArray(), count, toArray().length, usingComparator);
+		Algorithms.fastSort(array, 0, count - 1, usingComparator);
+		sorted = true;
 	}
 
 }
