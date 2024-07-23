@@ -208,7 +208,11 @@ public class Coder implements Comparable<Coder> {
 	 */
 	@Override
 	public int hashCode() {
-		return 0;
+		int hash = 31;
+		int i;
+		for (i = 0; i < getId().length() - 1; i++) {
+			hash = (hash * 31 + getId().charAt(i)); // charAt() returns an ASCII value
+		}
+		return hash;
 	}
-	
 }

@@ -8,6 +8,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Comparator;
 
 import oy.interact.tira.factories.HashTableFactory;
 import oy.interact.tira.util.Pair;
@@ -27,6 +28,14 @@ public class CodeWordsCounter {
 	public CodeWordsCounter() {
 		codeWords = HashTableFactory.createHashTable();
 	}
+
+	// ChatGPT generated a version only for String types, edited for pairs
+	Comparator<Pair<String, Integer>> myPairComparator = new Comparator<>() {
+		@Override
+		public int compare(Pair<String, Integer> pair1, Pair<String, Integer> pair2) {
+			return pair2.getValue().compareTo(pair1.getValue());
+		}
+	};
 
 	public void countWordsinSourceCodeFiles(File inDirectory) throws IOException {
 
@@ -91,9 +100,26 @@ public class CodeWordsCounter {
 			//             2.2.5.1 Add the word to hashtable with count increased by one
 			//                     (Remember that adding the same key to hashtable must update the value already in hashtable).
 			//       2.3 Reset the codeWordIndex to zero so next new word will start filling the wordChars array from the start.
-
+			int codePoint = content.codePointAt(index);
+			if (Character.isLetter(codePoint)) {
+				wordChars[codeWordIndex] = codePoint;
+				codeWordIndex++;
+			}
+			else {
+				if (wordChars.length >= 2) {
+					String word = new String(wordChars, 0, codeWordIndex);
+					word = word.toLowerCase();
+					if (codeWords.get(word) == null) { // THE ARRAY THAT HASHTABLECONTAINER RECEIVES FROM THIS (AND ALL OTHER SIMILAR CALLS) IS NULL, IDK WHY, FIX IT
+						codeWords.add(word, 1);
+					}
+					else {
+						codeWords.add(word, codeWords.get(word) + 1);
+					}
+				}
+				codeWordIndex = 0;	
+			}
 		}
-		// ^^ STUDENTS: your implementation after the commens.
+		// ^^ STUDENTS: your implementation after the comments.
 		cumulativeTimeInMilliseconds += System.currentTimeMillis() - start;
 	}
 
@@ -113,7 +139,24 @@ public class CodeWordsCounter {
 		//        Let's say the resulting new array size is n.
 		// 4. Put the first n items from the array of all pairs to this result array of size n.
 		// 5. Return the results array to caller.
-		return null; // TODO: return the array of codeword/count pairs.
+		int elementAmount = codeWords.size();
+		Pair<String, Integer>[] array = codeWords.toArray();
+		Algorithms.fastSort(array, myPairComparator);
+		if (topCount > elementAmount) {
+			Pair<String, Integer>[] resultArray = new Pair[elementAmount];
+			for (int i = 0; i < elementAmount; i++) {
+				resultArray[i] = array[i];
+			}
+			return resultArray;
+		}
+		else {
+			Pair<String, Integer>[] resultArray = new Pair[topCount];
+			for (int i = 0; i < topCount; i++) {
+				resultArray[i] = array[i];
+			}
+			return resultArray;
+		}
+		 // TODO: return the array of codeword/count pairs.
 	}
 
 }
