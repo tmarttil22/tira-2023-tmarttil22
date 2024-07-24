@@ -2,14 +2,12 @@ package oy.interact.tira.student;
 
 import oy.interact.tira.util.StackInterface;
 
-public class StackImplementation<E> implements StackInterface<E>{
+public class StackImplementation<E> implements StackInterface<E> {
 
     private static final int DEFAULT_STACK_SIZE = 10;
-    private Object [] itemArray;
+    private Object[] itemArray;
     private int capacity;
     private int elementAmount = 0;
-
-
 
     public StackImplementation() {
         itemArray = new Object[DEFAULT_STACK_SIZE];
@@ -22,8 +20,6 @@ public class StackImplementation<E> implements StackInterface<E>{
         capacity = cap;
         elementAmount = 0;
     }
-
-
 
     @Override
     public int capacity() {
@@ -40,10 +36,10 @@ public class StackImplementation<E> implements StackInterface<E>{
             if (currentIndex == capacity()) {
                 allocateSpace();
             }
-        itemArray[currentIndex] = element;
-        elementAmount++;
+            itemArray[currentIndex] = element;
+            elementAmount++;
 
-        } catch (OutOfMemoryError O){
+        } catch (OutOfMemoryError O) {
             throw new OutOfMemoryError("Couldn't add capacity");
         }
     }
@@ -51,11 +47,11 @@ public class StackImplementation<E> implements StackInterface<E>{
     private void allocateSpace() {
         int newCapacity = capacity * 2;
         try {
-            Object [] itemArrayNew = new Object[newCapacity];
+            Object[] itemArrayNew = new Object[newCapacity];
             int currentSize = size();
 
             System.arraycopy(itemArray, 0, itemArrayNew, 0, currentSize);
-            
+
             capacity = newCapacity;
             itemArray = itemArrayNew;
         } catch (OutOfMemoryError O) {
@@ -63,6 +59,7 @@ public class StackImplementation<E> implements StackInterface<E>{
         }
 
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public E pop() throws IllegalStateException {
@@ -73,11 +70,11 @@ public class StackImplementation<E> implements StackInterface<E>{
             throw new IllegalStateException("all elements in the array are null, nothing to pop");
         }
         int currentIndex = size() - 1;
-        E latest = (E)itemArray[currentIndex];
+        E latest = (E) itemArray[currentIndex];
         itemArray[currentIndex] = null;
         elementAmount--;
         return latest;
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +83,7 @@ public class StackImplementation<E> implements StackInterface<E>{
         if (isEmpty()) {
             throw new IllegalStateException("The array is empty");
         }
-        return (E)itemArray[size() - 1];
+        return (E) itemArray[size() - 1];
     }
 
     @Override

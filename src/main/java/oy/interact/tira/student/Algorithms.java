@@ -13,7 +13,7 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array) {
-      for (int i = 1; i < array.length; i++ ) {
+      for (int i = 1; i < array.length; i++) {
          T current = array[i];
          int j = i - 1;
 
@@ -21,7 +21,7 @@ public class Algorithms {
             array[j + 1] = array[j];
             j--;
          }
-         array[j+1] = current;
+         array[j + 1] = current;
       }
    }
 
@@ -30,7 +30,7 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array, int fromIndex, int toIndex) {
-      for (int i = fromIndex; i < toIndex; i++ ) {
+      for (int i = fromIndex; i < toIndex; i++) {
          T current = array[i];
          int j = i - 1;
 
@@ -38,7 +38,7 @@ public class Algorithms {
             array[j + 1] = array[j];
             j--;
          }
-         array[j+1] = current;
+         array[j + 1] = current;
       }
    }
 
@@ -55,7 +55,7 @@ public class Algorithms {
    ////////////////////////////////////////////////////////////
 
    public static <T> void insertionSort(T[] array, int fromIndex, int toIndex, Comparator<T> comparator) {
-      for (int i = fromIndex; i < toIndex; i++ ) {
+      for (int i = fromIndex; i < toIndex; i++) {
          T current = array[i];
          int j = i - 1;
 
@@ -63,7 +63,7 @@ public class Algorithms {
             array[j + 1] = array[j];
             j--;
          }
-         array[j+1] = current;
+         array[j + 1] = current;
       }
    }
 
@@ -85,7 +85,7 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> void reverse(T[] array, int fromIndex, int toIndex) {
-       for (int i = fromIndex; i < (toIndex - fromIndex) / 2; i++) {
+      for (int i = fromIndex; i < (toIndex - fromIndex) / 2; i++) {
          T key = array[i];
          int j = toIndex - i - 1;
          array[i] = array[j];
@@ -93,28 +93,24 @@ public class Algorithms {
       }
    }
 
-
-
-
    ///////////////////////////////////////////
    // Binary search bw indices
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex) {
-      toIndex--; //HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis fromIndex..<toIndex, ei fromIndex...toIndex.
+      toIndex--; // HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis
+                 // fromIndex..<toIndex, ei fromIndex...toIndex.
       int middle;
-      
+
       while (fromIndex <= toIndex) {
          middle = fromIndex + (toIndex - fromIndex) / 2;
          int comparable = aValue.compareTo(fromArray[middle]);
 
          if (comparable < 0) {
             toIndex = middle - 1;
-         }
-         else if (comparable > 0) {
+         } else if (comparable > 0) {
             fromIndex = middle + 1;
-         }
-         else {
+         } else {
             return middle;
          }
       }
@@ -125,53 +121,29 @@ public class Algorithms {
    // Binary search using a Comparator
    ///////////////////////////////////////////
 
-   /*public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      toIndex--; //HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis fromIndex..<toIndex, ei fromIndex...toIndex.
-      int middle;
-
-      while (fromIndex != toIndex) {
-         middle = fromIndex + (toIndex - fromIndex) / 2;
-         int comparable = comparator.compare(aValue, fromArray[middle]);
-
-         if (comparable < 0) {
-            toIndex = middle - 1;
-         }
-         else if (comparable > 0) {
-            fromIndex = middle;
-         }
-         else {
-            return middle;
-         }
-      }
-      return -1;
-   }
-   */
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      toIndex--; //HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis fromIndex..<toIndex, ei fromIndex...toIndex.
+      toIndex--; // HUOM 1: indeksit ovat [fromIndex,toIndex) -- haku tehdään siis
+                 // fromIndex..<toIndex, ei fromIndex...toIndex.
       int middle;
-      
+
       while (fromIndex <= toIndex) {
          middle = fromIndex + (toIndex - fromIndex) / 2;
          int comparable = comparator.compare(aValue, fromArray[middle]);
 
          if (comparable < 0) {
             toIndex = middle - 1;
-         }
-         else if (comparable > 0) {
+         } else if (comparable > 0) {
             fromIndex = middle + 1;
-         }
-         else {
+         } else {
             return middle;
          }
       }
       return -1;
    }
-   
-   public static <E extends Comparable<E>> void fastSort(E [] array) {
+
+   public static <E extends Comparable<E>> void fastSort(E[] array) {
       fastSort(array, 0, array.length - 1);
    }
-
-
 
    public static <E extends Comparable<E>> void fastSort(E[] array, int fromIndex, int toIndex) {
       if (toIndex > fromIndex) {
@@ -181,18 +153,14 @@ public class Algorithms {
          fastSort(array, middleIndex + 1, toIndex);
 
          merge(array, fromIndex, middleIndex, toIndex);
-      }     
+      }
    }
 
-
-
-   public static <E> void fastSort(E [] array, Comparator<E> comparator) {
+   public static <E> void fastSort(E[] array, Comparator<E> comparator) {
       fastSort(array, 0, array.length - 1, comparator);
    }
 
-
-
-   public static <E> void fastSort(E [] array, int fromIndex, int toIndex, Comparator<E> comparator) {
+   public static <E> void fastSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator) {
       if (toIndex > fromIndex) {
          int middleIndex = fromIndex + (toIndex - fromIndex) / 2;
 
@@ -203,15 +171,14 @@ public class Algorithms {
       }
    }
 
-
    // Comparator merge method
    @SuppressWarnings("unchecked")
-   private static <E> void merge(E [] array, int fromIndex, int middleIndex, int toIndex, Comparator<E> comparator) {
+   private static <E> void merge(E[] array, int fromIndex, int middleIndex, int toIndex, Comparator<E> comparator) {
       int leftArraySize = middleIndex - fromIndex + 1;
       int rightArraySize = toIndex - middleIndex;
 
-      E [] leftArray = (E []) new Comparable[leftArraySize];
-      E [] rightArray = (E []) new Comparable[rightArraySize];
+      E[] leftArray = (E[]) new Object[leftArraySize];
+      E[] rightArray = (E[]) new Object[rightArraySize];
 
       for (int i = 0; i < leftArraySize; i++) {
          leftArray[i] = array[fromIndex + i];
@@ -221,8 +188,8 @@ public class Algorithms {
       }
 
       int i = 0;
-      int j = 0; 
-      int k = fromIndex; 
+      int j = 0;
+      int k = fromIndex;
 
       // This loop runs until one of the arrays reaches the end
       while (i < leftArraySize && j < rightArraySize) {
@@ -242,15 +209,15 @@ public class Algorithms {
       }
    }
 
-      // Comparable merge method
-      @SuppressWarnings("unchecked")
-      private static <E extends Comparable<E>> void merge(E [] array, int fromIndex, int middleIndex, int toIndex) {
+   // Comparable merge method
+   @SuppressWarnings("unchecked")
+   private static <E extends Comparable<E>> void merge(E[] array, int fromIndex, int middleIndex, int toIndex) {
       int leftArraySize = middleIndex - fromIndex + 1;
       int rightArraySize = toIndex - middleIndex;
 
-      E [] leftArray = (E []) new Comparable[leftArraySize];
-      E [] rightArray = (E []) new Comparable[rightArraySize];
-      
+      E[] leftArray = (E[]) new Comparable[leftArraySize];
+      E[] rightArray = (E[]) new Comparable[rightArraySize];
+
       for (int i = 0; i < leftArraySize; i++) {
          leftArray[i] = array[fromIndex + i];
       }
@@ -258,10 +225,9 @@ public class Algorithms {
          rightArray[j] = array[middleIndex + 1 + j];
       }
 
-
       int i = 0;
-      int j = 0; 
-      int k = fromIndex; 
+      int j = 0;
+      int k = fromIndex;
 
       // This loop runs until one of the arrays reaches the end
       while (i < leftArraySize && j < rightArraySize) {

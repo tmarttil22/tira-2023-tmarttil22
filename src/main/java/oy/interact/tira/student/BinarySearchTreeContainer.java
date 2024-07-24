@@ -11,20 +11,17 @@ import oy.interact.tira.util.Visitor;
 
 public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TIRAKeyedOrderedContainer<K, V> {
 
-
-
     TreeNode<K, V> root;
-    int size;				 // Number of elements currently in the tree.
+    int size; // Number of elements currently in the tree.
     int maxDepth;
 
-	private Comparator<K> comparator;  // The comparator used to determine if new node will go to left or right subtree.
+    private Comparator<K> comparator; // The comparator used to determine if new node will go to left or right subtree.
 
-	public BinarySearchTreeContainer(Comparator<K> comparator) {
-		this.comparator = comparator;
-	}
+    public BinarySearchTreeContainer(Comparator<K> comparator) {
+        this.comparator = comparator;
+    }
 
-
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public void add(K key, V value) throws OutOfMemoryError, IllegalArgumentException {
         if (root == null) {
@@ -33,15 +30,13 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             maxDepth = 1;
         } else {
             TreeNode.addDepth = 1;
-            if (root.insert(key, value, comparator)) {      // if this creates a new node (returns true), increase size
+            if (root.insert(key, value, comparator)) { // if this creates a new node (returns true), increase size
                 maxDepth = Math.max(TreeNode.addDepth, maxDepth);
                 size++;
             }
         }
 
     }
-
-
 
     @Override
     public V get(K key) throws IllegalArgumentException {
@@ -51,23 +46,17 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         return root.find(key, comparator);
     }
 
-
-
     @Override
     public V remove(K key) throws IllegalArgumentException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
 
-
-
     @Override
     public V find(Predicate<V> searcher) {
-        int[] currentIndex = {0};
+        int[] currentIndex = { 0 };
         return inOrderFind(root, searcher, currentIndex);
     }
-
-
 
     // essentially the same method as inOrderFindIndex, except returns type V
     private V inOrderFind(TreeNode<K, V> currentNode, Predicate<V> searcher, int[] currentIndex) {
@@ -83,12 +72,10 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             return currentNode.getValue();
         }
         currentIndex[0]++;
-    
+
         V resultRIght = inOrderFind(currentNode.getRight(), searcher, currentIndex);
         return resultRIght;
     }
-
-
 
     @Override
     public int size() {
@@ -99,8 +86,6 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     public int capacity() {
         return maxDepth;
     }
-
-
 
     @Override
     public void ensureCapacity(int capacity) throws OutOfMemoryError, IllegalArgumentException {
@@ -121,12 +106,10 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     private void treeElementTransfer(TreeNode<K, V> originalRoot, BinarySearchTreeContainer<K, V> newTree) {
         if (originalRoot != null) {
             newTree.add(originalRoot.getKey(), originalRoot.getValue());
-            treeElementTransfer(originalRoot.getLeft(), newTree);           // recursive loop for copying all elements to new tree
+            treeElementTransfer(originalRoot.getLeft(), newTree); // recursive loop for copying all elements to new tree
             treeElementTransfer(originalRoot.getRight(), newTree);
         }
     }
-
-
 
     @Override
     public void clear() {
@@ -145,12 +128,11 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         }
     }
 
-
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public Pair<K, V>[] toArray() throws Exception {
         Pair<K, V>[] result = new Pair[size()];
-        int[] currentIndex = {0};
+        int[] currentIndex = { 0 };
 
         inOrderToArray(root, result, currentIndex);
         return result;
@@ -159,14 +141,12 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     private void inOrderToArray(TreeNode<K, V> currentNode, Pair<K, V>[] array, int[] currentIndex) {
         if (currentNode != null) {
             inOrderToArray(currentNode.getLeft(), array, currentIndex);
-    
+
             array[currentIndex[0]++] = new Pair<>(currentNode.getKey(), currentNode.getValue());
-    
+
             inOrderToArray(currentNode.getRight(), array, currentIndex);
         }
     }
-
-
 
     @Override
     public int indexOf(K itemKey) {
@@ -195,25 +175,29 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         return -1;
     }
 
-
-
     @SuppressWarnings("unchecked")
     @Override
     public Pair<K, V> getIndex(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= size() ) {
+        if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
 
-        // these variables change when they get handled in the inOrderTraversal recursive method call process
-        Pair<K,V>[] result = new Pair[1];
-        AtomicInteger currentIndex = new AtomicInteger(-1);     // initial value of -1, because before the first value gets looked at in the inOrderTraversal if-statement, 1 gets added to it (this takes care of index 0)
-        
+        // these variables change when they get handled in the inOrderTraversal
+        // recursive method call process
+        Pair<K, V>[] result = new Pair[1];
+        AtomicInteger currentIndex = new AtomicInteger(-1); // initial value of -1, because before the first value gets
+                                                            // looked at in the inOrderTraversal if-statement, 1 gets
+                                                            // added to it (this takes care of index 0)
+
         inOrderTraversal(root, index, currentIndex, result);
         return result[0];
     }
 
-    // ChatGPT utilized, prompt used "how would i do a getIndex method for a binary search tree recursively", modified to account for already written methods and variable names and changed to work with AtomicInteger
-    public void inOrderTraversal(TreeNode<K, V> currentNode, int targetIndex, AtomicInteger currentIndex, Pair<K, V>[] result) {
+    // ChatGPT utilized, prompt used "how would i do a getIndex method for a binary
+    // search tree recursively", modified to account for already written methods and
+    // variable names and changed to work with AtomicInteger
+    public void inOrderTraversal(TreeNode<K, V> currentNode, int targetIndex, AtomicInteger currentIndex,
+            Pair<K, V>[] result) {
         if (currentNode == null || currentIndex.get() > targetIndex) {
             return;
         }
@@ -227,15 +211,15 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
         inOrderTraversal(currentNode.getRight(), targetIndex, currentIndex, result);
     }
 
-
-    
     @Override
     public int findIndex(Predicate<V> searcher) {
-        int[] currentIndex = {0};
+        int[] currentIndex = { 0 };
         return inOrderFindIndex(root, searcher, currentIndex);
     }
 
-    // idea for using a  helper method obtained from chatGPT, prompting the class's own description and asking for an example code, modified to use TreeNode class methods
+    // idea for using a helper method obtained from chatGPT, prompting the class's
+    // own description and asking for an example code, modified to use TreeNode
+    // class methods
     private int inOrderFindIndex(TreeNode<K, V> currentNode, Predicate<V> searcher, int[] currentIndex) {
         if (currentNode == null) {
             return -1;
@@ -246,17 +230,15 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
             return resultLeft;
         }
 
-        if (searcher.test(currentNode.getValue())) {        // test if the observed value has the searchers value within it
-            return currentIndex[0];                         // if so, return the index to the original method
+        if (searcher.test(currentNode.getValue())) { // test if the observed value has the searchers value within it
+            return currentIndex[0]; // if so, return the index to the original method
         }
         currentIndex[0]++;
 
         int resultRight = inOrderFindIndex(currentNode.getRight(), searcher, currentIndex);
         return resultRight;
     }
-    
 
-    
     @Override
     public void accept(Visitor<K, V> visitor) throws Exception {
         visitor.visit(this);
@@ -265,7 +247,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
 
     private void inOrderAccept(TreeNode<K, V> currentNode, Visitor<K, V> visitor) {
         if (currentNode != null) {
-            //currentNode.accept(visitor);
+            // currentNode.accept(visitor);
             inOrderAccept(currentNode.getLeft(), visitor);
             inOrderAccept(currentNode.getRight(), visitor);
         }

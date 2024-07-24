@@ -5,13 +5,11 @@ import oy.interact.tira.util.QueueInterface;
 public class QueueImplementation<E> implements QueueInterface<E> {
 
     private static final int DEFAULT_STACK_SIZE = 10;
-    private Object [] itemArray;
+    private Object[] itemArray;
     private int capacity;
     private int elementAmount = 0;
     private int head;
     private int tail;
-
-
 
     public QueueImplementation() {
         itemArray = new Object[DEFAULT_STACK_SIZE];
@@ -22,14 +20,12 @@ public class QueueImplementation<E> implements QueueInterface<E> {
     }
 
     public QueueImplementation(int capacity) {
-        itemArray = new Object[capacity ];
+        itemArray = new Object[capacity];
         this.capacity = capacity;
         elementAmount = 0;
         head = 0;
         tail = 0;
     }
-
-
 
     @Override
     public int capacity() {
@@ -44,15 +40,17 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         if (size() == capacity()) {
             allocateSpace();
         }
-        itemArray[tail] = element; 
-        tail = (tail + 1) % capacity(); // from chatGPT, propt used: "how would i make my own queue interface?" modified to use this classes capacity method
-        elementAmount++; //  using modulus (%) makes the value "circle" around the array instead of going ovet the index limit
+        itemArray[tail] = element;
+        tail = (tail + 1) % capacity(); // from chatGPT, propt used: "how would i make my own queue interface?" modified
+                                        // to use this classes capacity method
+        elementAmount++; // using modulus (%) makes the value "circle" around the array instead of going
+                         // ovet the index limit
     }
 
     private void allocateSpace() {
         int newCapacity = capacity * 2;
         try {
-            Object [] itemArrayNew = new Object[newCapacity];
+            Object[] itemArrayNew = new Object[newCapacity];
             int currentSize = size();
             System.arraycopy(itemArray, head, itemArrayNew, 0, size() - head);
             System.arraycopy(itemArray, 0, itemArrayNew, size() - head, tail);
@@ -66,16 +64,15 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         }
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public E dequeue() throws IllegalStateException {
         if (isEmpty()) {
             throw new IllegalStateException("The queue is empty");
         }
-        E removed = (E)itemArray[head];
+        E removed = (E) itemArray[head];
         itemArray[head] = null;
-        head = (head + 1) % capacity(); //moves the head to the next element in the queue
+        head = (head + 1) % capacity(); // moves the head to the next element in the queue
         elementAmount--;
         return removed;
     }
@@ -86,7 +83,7 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         if (isEmpty()) {
             throw new IllegalStateException("The queue is empty");
         }
-        return (E)itemArray[head];
+        return (E) itemArray[head];
     }
 
     @Override
@@ -107,9 +104,10 @@ public class QueueImplementation<E> implements QueueInterface<E> {
         head = 0;
         tail = 0;
     }
-    
+
     @Override
-    public String toString() { //NOT CORRECT YET, FIGURE OUT (StackImplementation toString doesnt return correct result here)
+    public String toString() { // NOT CORRECT YET, FIGURE OUT (StackImplementation toString doesnt return
+                               // correct result here)
         if (isEmpty()) {
             return "[]";
         }

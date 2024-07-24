@@ -5,41 +5,37 @@ import java.util.function.Predicate;
 import oy.interact.tira.util.Pair;
 import oy.interact.tira.util.TIRAKeyedContainer;
 
-public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedContainer<K,V> {
+public class HashTableContainer<K extends Comparable<K>, V> implements TIRAKeyedContainer<K, V> {
 
-    private Pair<K,V>[] array;
+    private Pair<K, V>[] array;
     private int elementAmount;
     private int collisionCount;
-    private final int TABLE_SIZE = 200; 
-    /*smaller values might not (or will not) pass testHashTable(),since ensureCapacity calculates
-    new indexes for the new size, and one test makes sure that a correct index is returned*/
+    private final int TABLE_SIZE = 100;
 
-
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public void add(K key, V value) throws OutOfMemoryError, IllegalArgumentException {
         if (array == null) {
             array = (Pair<K, V>[]) new Pair[TABLE_SIZE];
-        }
-        else if (size() >= Double.valueOf(capacity()) * 0.75) {
+        } else if (size() >= Double.valueOf(capacity()) * 0.75) {
             ensureCapacity(array.length * 2);
         }
-        Pair<K,V> keyValue = new Pair<>(key, value);
+        Pair<K, V> keyValue = new Pair<>(key, value);
         int i = 0;
         while (i < capacity()) {
             int hashValue = key.hashCode() + i;
             int index = (hashValue & 0x7fffffff) % array.length; // Luentomateriaali
 
-            if (array[index] == null) { 
+            if (array[index] == null) {
                 array[index] = keyValue;
                 elementAmount++;
                 return;
-            }
-            else if (key.hashCode() == array[index].getKey().hashCode()) { // A simple "==" comparison works fine because both are ints
+            } else if (key.equals(array[index].getKey())) {
                 array[index] = keyValue;
                 return;
             }
-            // if the code reaches this point, there already was an element in the current index with a different hashcode, ie. there has been a collision
+            // if the code reaches this point, there already was an element in the current
+            // index with a different hashcode, ie. there has been a collision
             collisionCount++;
             i++;
         }
@@ -47,18 +43,25 @@ public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedC
 
     @Override
     public V get(K key) throws IllegalArgumentException {
+        // Check for this, because CodeWordsCounter doesn't add an element before trying
+        // to get one, and then the array is always null
+        if (array == null) { 
+            array = (Pair<K, V>[]) new Pair[TABLE_SIZE];
+        }
         int i = 0;
         int hashValue = key.hashCode() + i;
         int index = (hashValue & 0x7fffffff) % array.length;
-        while (i < capacity() && array[index] != null) {
-            if (key.equals(array[index].getKey())) {
-                return array[index].getValue();
+        while (i < capacity()) {
+            Pair<K, V> pair = array[index];
+            if (pair == null) {
+                return null;
+            }
+            if (key.equals(pair.getKey())) {
+                return pair.getValue();
             }
             i++;
-            if (i < array.length - 1) {
-                hashValue = key.hashCode() + i;
-                index = (hashValue & 0x7fffffff) % array.length;
-            }
+            hashValue = key.hashCode() + i;
+            index = (hashValue & 0x7fffffff) % array.length;
         }
         return null;
     }
@@ -73,7 +76,7 @@ public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedC
     public V find(Predicate<V> searcher) {
         for (int i = 0; i < capacity(); i++) {
             if (array[i] != null) {
-                if(searcher.test(array[i].getValue())) {
+                if (searcher.test(array[i].getValue())) {
                     return array[i].getValue();
                 }
             }
@@ -91,24 +94,23 @@ public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedC
         return array.length;
     }
 
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public void ensureCapacity(int capacity) throws OutOfMemoryError, IllegalArgumentException {
-        Pair<K,V>[] newArray = (Pair<K, V>[]) new Pair[capacity];
+        Pair<K, V>[] newArray = (Pair<K, V>[]) new Pair[capacity];
 
-        for (int i = 0; i < array.length - 1; i++) {
+        for (int i = 0; i < array.length; i++) {
             int j = 0;
             while (j < capacity) {
-                if (array[i] != null){
+                if (array[i] != null) {
                     K key = array[i].getKey();
                     int hashValue = key.hashCode() + j;
                     int index = (hashValue & 0x7fffffff) % capacity;
-                    if (newArray[index] == null) { 
+                    if (newArray[index] == null) {
                         newArray[index] = array[i];
                         break;
                     }
-                }
-                else {
+                } else {
                     break;
                 }
                 j++;
@@ -119,17 +121,17 @@ public class HashTableContainer<K extends Comparable<K>,V> implements TIRAKeyedC
 
     @Override
     public void clear() {
-        Pair<K,V>[] newArray = null;
+        Pair<K, V>[] newArray = null;
         this.array = newArray;
         elementAmount = 0;
     }
 
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public Pair<K, V>[] toArray() throws Exception {
         Pair<K, V>[] result = new Pair[size()];
         int index = 0;
-        for (Pair<K,V> element : array) {
+        for (Pair<K, V> element : array) {
             if (element != null) {
                 result[index++] = element;
             }

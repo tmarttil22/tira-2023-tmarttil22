@@ -13,33 +13,26 @@ public class TreeNode<K extends Comparable<K>, V> {
         this.left = this.right = null;
     }
 
-    private Comparator<K> comparator;
-    
-    public TreeNode(Comparator<K> comparator) {
-        this.comparator = comparator;
-    }
-
     private K key;
     private V value;
 
     static int addDepth;
 
-    //private int hash = -1;
+    // private int hash = -1;
     Pair<K, V> keyValue;
-    TreeNode<K,V> left = null;
-    TreeNode<K,V> right = null;
-    TreeNode<K,V> parent;
-    
+    TreeNode<K, V> left = null;
+    TreeNode<K, V> right = null;
+    TreeNode<K, V> parent;
 
     public boolean insert(K key, V value, Comparator<K> comparator) {
-         if (this.value.equals(value)) {
+        if (this.value.equals(value)) {
             this.value = value;
             this.key = key;
             return false;
         }
-        
+
         boolean result = false;
-        if (comparator.compare(this.key, key) > 0) {      // add to left branch
+        if (comparator.compare(this.key, key) > 0) { // add to left branch
             if (left == null) {
                 left = new TreeNode<>(key, value);
                 addDepth++;
@@ -61,8 +54,6 @@ public class TreeNode<K extends Comparable<K>, V> {
         return result;
     }
 
-
-
     public V find(K key, Comparator<K> comparator) {
         V result = null;
 
@@ -81,9 +72,6 @@ public class TreeNode<K extends Comparable<K>, V> {
         return result;
     }
 
-
-
-
     public K getKey() {
         return key;
     }
@@ -92,15 +80,15 @@ public class TreeNode<K extends Comparable<K>, V> {
         return value;
     }
 
-    public TreeNode<K,V> getLeft() {
+    public TreeNode<K, V> getLeft() {
         return left;
     }
 
-    public TreeNode<K,V> getRight() {
+    public TreeNode<K, V> getRight() {
         return right;
     }
 
-    public TreeNode<K,V> getParent() {
+    public TreeNode<K, V> getParent() {
         return parent;
     }
 
