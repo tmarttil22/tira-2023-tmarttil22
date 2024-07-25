@@ -145,4 +145,20 @@ BST:n getIndex() metodiin menevä aika kasvaa suuremmalla tahdilla, mitä suurem
 
 ## 08-TASK
 
+Tehtävä opetti hyvin hajautuspöydän toiminnan, ja siitä oli helppo saada ymmärrys. Implementaation toteutuksessa en törmännyt sen suurempiin hankaluuksiin, paitsi performance testit eivät aluksi toimineet ja sen selvittäminen tuotti vaikeuksia
+
+Hashtablen hakuaika on O(1 + x), jossa x = törmäysten määrä. Kun laitoin performance testin laskemaan törmäyksien määrää jokaiselle aineistokoolle ja vertasin törmays-, ja hakuaikalukuja suhteessa toisiinsa, kasvoi hakuaika suhteessa saman verran kuin törmäyksetkin. Ideaalisin tilanne olisi O(1), jolloin törmäyksiä ei tapahdu ollenkaan. Tormäyksiä voisi luultavasti vältellä tehokkaammin jolloin aikatehokkuus paranisi, mutta toteutus on oikeellinen.
+
+![Simplekeyedcontainer raw data](image-15.png)
+
+![Hashtable raw data](image-16.png)
+
+![search time / element amount comparison](image-17.png)
+
+BST on monia kertoja nopeampi sorttaamaan kuin hajautuspöytä, 100k aineistolla BST käyttää aikaa 4ms ja hajautuspöytä yli 300ms. hajautuspöydällä on kuitenkin nopeampi hakuaika, koska BST:n aikakompleksisuus haussa on O(logn). Varsin huonolla hashauksella ja/tai törmäyksienkorjauksella hajautuspöydän tehokkuus voi olla myös hyvin lähellä
+
+![Toarray & sorted / element amount comparison](image-18.png)
+
+Tietorakenteet ovat pienillä ja suurilla aineistoilla melko verrannollisia, mutta BST:hen lisääminen on hiukan nopeampaa kuin hajautuspöytään, johtuen hajautuspöydän indeksien törmäyksistä ja niiden reallokoinnista
+
 ## 09-TASK

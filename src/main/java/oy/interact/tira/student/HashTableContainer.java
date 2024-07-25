@@ -89,6 +89,11 @@ public class HashTableContainer<K extends Comparable<K>, V> implements TIRAKeyed
         return elementAmount;
     }
 
+    // returns the amount of collisions
+    public int collision() {
+        return collisionCount;
+    }
+
     @Override
     public int capacity() {
         return array.length;
