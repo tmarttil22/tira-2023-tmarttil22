@@ -1,6 +1,7 @@
 package oy.interact.tira.student.graph;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import oy.interact.tira.student.graph.Edge.EdgeType;
@@ -36,6 +37,7 @@ public class Graph<T> {
     * a suitable type of Map, depending on application needs.
     */
    private Map<Vertex<T>, List<Edge<T>>> edgeList = null;
+   private Set<Vertex<T>> vertexSet = null;
    
    /**
     * Constructor instantiates a suitable Map data structure
@@ -58,8 +60,11 @@ public class Graph<T> {
     * @return Returns the created vertex, placed in the graph's edge list.
     */
    public Vertex<T> createVertexFor(T element) {
-      // TODO: Student, implement this.
-      return null;
+      Vertex<T> vertex = new Vertex<T>(element);
+      List<Edge<T>> edges = new ArrayList<>(); // empty arrayList, because vertex is guaranteed to not have edges yet
+      edgeList.put(vertex, edges);
+      vertexSet.add(vertex);                   // add new Vertex to the Set, to be used it getVertices()
+      return vertex;
    }
 
    /**
@@ -68,8 +73,7 @@ public class Graph<T> {
     * @return A Set with all the vertices of the graph.
     */
    public Set<Vertex<T>> getVertices() {
-      // TODO: Student, implement this.
-      return null;
+      return vertexSet;
    }
 
    /**
@@ -81,7 +85,15 @@ public class Graph<T> {
     * @param weight The weight of the edge.
     */
    public void addEdge(Edge.EdgeType type, Vertex<T> source, Vertex<T> destination, double weight) {
-      // TODO: Student, implement this.
+      switch (type) {
+         case DIRECTED:
+            addDirectedEdge(source, destination, weight);
+         case UNDIRECTED:
+            Edge<T> edge1 = new Edge<>(source, destination, weight);
+            Edge<T> edge2 = new Edge<>(destination, source, weight);
+            // adding 2 directed edges to-and-from = 1 undirected edge
+            // FIGURE OUT TO ADD THESE EDGES TO EDGELIST :)))
+      }
    }
 
    /**
@@ -92,7 +104,7 @@ public class Graph<T> {
     * @param weight The weight of the edge.
     */
    public void addDirectedEdge(Vertex<T> source, Vertex<T> destination, double weight) {
-      // TODO: Student, implement this.
+      new Edge<>(source, destination, weight);
    }
 
    /**
