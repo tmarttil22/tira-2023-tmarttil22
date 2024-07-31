@@ -57,6 +57,7 @@ Jos aineisto on jo valmiiksi lajiteltu, kannattaa käyttää reverse-algoritmia,
 Toteutettuja algoritmejä kutsutaan lineaarisiksi, koska niiden suoritusaika kasvaa lineaarisesti (suoraan) ylöspäin n:n kasvaessa. Big-O notaatiossa tätä merkitään O(n).
 
 Kuvasta voidaan päätellä, että täyttöajan aikakompleksisuus on O(n), mutta hakuajan aikakompleksisuus pysyy aikalailla samana, lukuun ottamatta alkua jossa suhdeluku alkaa tosi korkealta (2.66 kun n=500, 0.73 kun n=1000), sekä näennäisesti satunnaisia piikkejä kun suhdeluku onkin huomattavasti eri. 
+
 ![Käyrät](image.png)
 ![Käyrät 2](image-11.png)
 
@@ -95,13 +96,14 @@ Opin tehtävässä miten mergesort toimii koodaamisen tasolla, sekä miten heaps
 CodersSlowComparatorTests tuloksien ja niistä tehtyjen käyrien perusteella voi päätellä, että suoritusaika kasvaa lineaarista nopeammin korkeammaksi, ja silmämääräisesti algoritmin aikakompleksisuusluokka voisi olla O(n*logn)
 
 Lisäksi aika, jota käytetään yhden elementin käsittelyyn, kasvaa moninkertaiseksi verrattuna pienen, 100 koodaajan tiedoston aikaan. Pienimmillään aikaa kului 0,033 ms per elementti 1000 koodarin tiedostossa, suurimmillaan kului 2,82 ms 100 000 koodarin tiedostossa. Tässä huomataan yksi syy, miksi hitaan algoritmin aikakompleksisuusluokka ei ole O(n)
+
 ![Slow Comparator test graphs](image-1.png)
 
 CodersFastComparatorTests tuloksista tuotettu, kuvassa näkyvä, "Fast test ms" käyrä taas kasvaa silminnähden lineaarisesti suuremmaksi, ja verrattuna 2 miljoonan koodareiden tiedostoa 1 miljoonan koodarin tiedostoon, käsittelyyn kuluva aika on n. 48%. Tästä syystä, sekä käyrän lineaarisesta muodosta, aikakompleksisuusluokka on lähellä O(n), jos dataa olisi paljon enemmän, voitaisiin laskea tarkemmalla tarkkuudella algoritmin aikakompleksisuusluokka.
 
 Ms/element arvo alkaa huomattavasti muita arvoja korkeamalta pienellä aineistomäärällä, ja nopeasti tipahtaa alas alle 0,01ms käsittelyaikaan per elementti. Tämä käsittelyaika elementille kasvaa todella vähän vaikka tiedoston koko kasvaisi todella paljon, ero 5000 ja 2 000 000 koodarin tiedoston keskiverto ms/element käsittelyajan on 0,004 - 0,002 = 0,002ms
-![Fast Comparator test graphs](image-2.png)
 
+![Fast Comparator test graphs](image-2.png)
 ![Raw numbers in Excel](image-3.png)
 
 Nopea algoritmi käsitteli testit ajassa 488, ja hidas ajassa 365 212. Nopea algoritmi käytti siis 0.1% hitaan ajasta, saman asian hoitamiseen. Hidas algoritmi (insertionsort) joutuu vaihtelemaan paljon elementtien paikkoja koko listasta kun siihen lisätään uusia elementtejä, joka johtaa suuremmilla elementtimäärillä suurempiin ms/element käsittelyaikoihin. Mergesort taas tekee päälistasta pienempiä listoja, joihin lisääminen tapahtuu paljon tehokkaammin
@@ -155,10 +157,30 @@ Hashtablen hakuaika on O(1 + x), jossa x = törmäysten määrä. Kun laitoin pe
 
 ![search time / element amount comparison](image-17.png)
 
-BST on monia kertoja nopeampi sorttaamaan kuin hajautuspöytä, 100k aineistolla BST käyttää aikaa 4ms ja hajautuspöytä yli 300ms. hajautuspöydällä on kuitenkin nopeampi hakuaika, koska BST:n aikakompleksisuus haussa on O(logn). Varsin huonolla hashauksella ja/tai törmäyksienkorjauksella hajautuspöydän tehokkuus voi olla myös hyvin lähellä
+BST on monia kertoja nopeampi sorttaamaan kuin hajautuspöytä, 100k aineistolla BST käyttää aikaa 4ms ja hajautuspöytä yli 300ms. hajautuspöydällä on kuitenkin nopeampi hakuaika, koska BST:n aikakompleksisuus haussa on O(logn). Varsin huonolla hashauksella ja/tai törmäyksienkorjauksella hajautuspöydän tehokkuus voi olla myös hyvin lähellä. 
 
 ![Toarray & sorted / element amount comparison](image-18.png)
 
 Tietorakenteet ovat pienillä ja suurilla aineistoilla melko verrannollisia, mutta BST:hen lisääminen on hiukan nopeampaa kuin hajautuspöytään, johtuen hajautuspöydän indeksien törmäyksistä ja niiden reallokoinnista
 
 ## 09-TASK
+
+Opin tämän tehtävän tekemisessä pääasiassa verkkotietorakenteen perusteet, ja algoritmien toimintaperiaatteet olivat minulle jo tuttuja. Hankalinta oli saada oikeellinen ymmärrys siitä, miten tämä tietorakenne kirjoitetaan (Javan omien tietosäiliöiden käyttö) mutta kun se oli hallussa, en kokenut enempää haastavuuksia tehtävässä.
+
+BFS aikakompleksisuusluokka on luennoilla mainittu O(V+E) joissa V on verteksit ja E reunat. testeissä reunojen määrä kasvaa suurinpiirtein samaa tahtia kuin verteksien määrä, jonka takia kun otetaan huomioon O(n+m), tulee algoritmin aikatehokkuus vastaan liian suurilla aineistoilla (Koneellani 100 000 kokoisen aineiston BFS time oli yli 11 minuuttia)
+
+Koska matriisiin verteksin/noden lisääminen on todella aikatehotonta [O(V^2)] johtuen matriisin uudelleen reallokoinnista, ja koska aineistot voivat olla todella suuria ja jatkuvasti muuttuvia kun koodareita lisätään, on reunuslista tähän käyttötarkoitukseen parempi vaihtoehto. Reunojen löytäminen on nopeampaa matriisilla, mutta kokonaiskuvaa katsoessa siitä saa parhaiten hyödyt irti kun verteksejä ei lisäillä
+
+Alkuperäisellä getVertexFor() toteutuksen for-loopin iteraatiotavalla jouduttiin käymään jokainen elementti läpi kunnes löytyi oikea vertex. Tämän aikakompleksisuusluokka on O(V). Korjatulla tavalla taas aina lisätessä uusi vertex, kyseinen vertex laitetaan myös toiseen hashmappiin jossa sen avain on verteksin elementin hashcode. Kun tällä tavalla halutaan löytää tietyn elementin vertex, se saadaan aikakompleksisuusluokkaan O(1) suoraan tältä toiselta hashmapilta, käyttämällä hyödyksi elementin hashcodea.
+
+Eroavaisuudet Hashtablen ja HashMapin välillä olivat hyvin pieni fill time -ero jossa 100k aineistolla HashTable on 50ms nopeampi (hashcode getVertexFor versiolla), sekä 100k aineistolla HashMap oli HashTablea huomattavasti nopeampi (678017ms / 889309ms == 0.762...), saman aineiston HashMap kävi läpi BSF-algoritmilla 76% HashMapin ajasta
+
+![Performance raw data (HashMap)](image-19.png)
+
+![Performance raw data (HashTable)](image-21.png)
+
+(DFS sekä Dijkstra ajat ovat N/A ja nollia koska niitä ei ole implementoitu)
+
+![BFS time and vertice/edge relation charts (HashMap)](image-20.png)
+
+Suhteesta verteksien sekä reunojen välillä huomataan että ne kasvavat suurinpiirtein samaa, jolloin testatut verkot ovat suhteellisen harvoja koska reunoja ei ole huomattavasti enemmän kuin verteksiä.
